@@ -58,7 +58,7 @@ function greet() {
 
 function requestChat(userId, messageText) {
     $.ajax({
-        url: "http://127.0.0.1:8080/send/" + userId + "/" + messageText,
+        url: "http://0.0.0.0:8800/send/" + userId + "/" + messageText,
         type: "GET",
         dataType: "json",
         success: function (data) {

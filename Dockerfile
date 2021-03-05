@@ -15,6 +15,6 @@ RUN pip install transformers \
 WORKDIR /app
 COPY . .
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["python", "demo/start_demo.py"]
