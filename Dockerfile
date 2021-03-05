@@ -14,6 +14,8 @@ RUN pip install transformers && \
 WORKDIR /app
 COPY . .
 
+RUN cd demo
+
 EXPOSE 80
 
-CMD ["python3", "demo/start_demo.py"]
+CMD ["python3", "start_demo.py"]
