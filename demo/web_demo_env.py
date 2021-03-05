@@ -25,7 +25,7 @@ class WebDemoEnv(BaseEnv):
         def index():
             return render_template("index.html", title=model.name)
 
-        @self.app.route('/send/<user_id>/<text>', methods=['GET'])
+        @self.app.route('/send/<user_id>/<text>', methods=['POST'])
         def send(user_id, text: str) -> Dict[str, str]:
 
             if text in self.keywords:
