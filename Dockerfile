@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["python3", "main.py"]
+CMD ["python3", "demo/start_demo.py"]
