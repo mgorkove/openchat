@@ -1,4 +1,5 @@
-FROM python3
+# Dockerfile CPU
+FROM python
 
 RUN apt-get update && \
     apt-get install -y && \
@@ -6,10 +7,10 @@ RUN apt-get update && \
 
 RUN pip install --upgrade pip
 RUN pip install transformers && \
-    pip install flask && \
-    pip install waitress && \
-    pip install Flask-Cors && \
-    pip install openchat
+    flask && \
+    waitress && \
+    Flask-Cors && \
+    openchat
 
 WORKDIR /app
 COPY . .
@@ -18,4 +19,4 @@ RUN cd demo
 
 EXPOSE 80
 
-CMD ["python3", "start_demo.py"]
+CMD ["python", "start_demo.py"]
