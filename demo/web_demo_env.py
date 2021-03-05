@@ -15,6 +15,12 @@ class WebDemoEnv(BaseEnv):
 
     def run(self, model: BaseModel):
 
+        ##
+        # Sever health checking page.
+        @self.app.route('/healthz', methods=["GET"])
+        def health_check():
+            return "Health", 200
+
         @self.app.route("/")
         def index():
             return render_template("index.html", title=model.name)
