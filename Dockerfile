@@ -9,7 +9,8 @@ RUN pip install --upgrade pip
 RUN pip install transformers \
     flask \
     Flask-Cors \
-    openchat
+    openchat \
+    torch
 
 WORKDIR /app
 COPY . .
