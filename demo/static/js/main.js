@@ -59,7 +59,7 @@ function greet() {
 function requestChat(userId, messageText) {
     $.ajax({
         url: "/send/" + userId + "/" + messageText,
-        type: "GET",
+        type: "POST",
         dataType: "json",
         success: function (data) {
             console.log(data)
