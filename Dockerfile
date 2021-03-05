@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 RUN pip install --upgrade pip
 RUN pip install transformers && \
-    flask && \
+    Flask && \
     waitress && \
     Flask-Cors && \
     openchat
