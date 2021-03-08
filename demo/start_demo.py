@@ -6,4 +6,4 @@ from web_demo_env import WebDemoEnv
 #OpenChat(model="blenderbot", size="large", env=WebDemoEnv(), max_context_length=65536)
 # GPU Running
 print('gpu')
-OpenChat(model="blenderbot", size="large", env=WebDemoEnv(), device="cuda", max_context_length=1000000000)
+OpenChat(model="blenderbot", size="large", env=WebDemoEnv(), device="cuda", max_context_length=65536)
