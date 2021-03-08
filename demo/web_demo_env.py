@@ -16,11 +16,11 @@ class WebDemoEnv(BaseEnv):
         super().__init__()
         self.BATCH_SIZE = 1
         self.CHECK_INTERVAL = 0.1
-        self.requests_queue = Queue()
         self.app = Flask(__name__)
         CORS(self.app)
 
     def run(self, model: BaseModel):
+        requests_queue = Queue()
 
         ##
         # Request handler.
@@ -31,7 +31,7 @@ class WebDemoEnv(BaseEnv):
 
                 while not (len(request_batch) >= self.BATCH_SIZE):
                     try:
-                        request_batch.append(self.requests_queue.get(timeout=self.CHECK_INTERVAL))
+                        request_batch.append(requests_queue.get(timeout=self.CHECK_INTERVAL))
                     except Empty:
                         continue
 
@@ -57,7 +57,7 @@ class WebDemoEnv(BaseEnv):
         @self.app.route('/send/<user_id>', methods=['POST'])
         def send(user_id):
 
-            if self.requests_queue.qsize() > self.BATCH_SIZE:
+            if requests_queue.qsize() > self.BATCH_SIZE:
                 return jsonify({'message': 'Too Many Requests'}), 429
 
             try:
@@ -84,7 +84,7 @@ class WebDemoEnv(BaseEnv):
 
                     # input a request on queue
                     req = {'input': args}
-                    self.requests_queue.put(req)
+                    requests_queue.put(req)
 
                     # wait
                     while 'output' not in req:
