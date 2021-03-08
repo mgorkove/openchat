@@ -30,6 +30,8 @@ class WebDemoEnv(BaseEnv):
                 request_batch = []
 
                 while not (len(request_batch) >= self.BATCH_SIZE):
+                    print(requests_queue)
+
                     try:
                         request_batch.append(requests_queue.get(timeout=self.CHECK_INTERVAL))
                     except Empty:
