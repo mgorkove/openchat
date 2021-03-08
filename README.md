@@ -32,14 +32,17 @@ pip install openchat
 
 ### With CLI
 
-#### Input
+* Input
 
 ※ You can change the "curl_user" of the url to any name you want.
+
+text: Hey, nice to meet you bro!
 
     curl -X POST "https://main-openchat-fpem123.endpoint.ainize.ai/send/curl_user" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "text=Hey, nice to meet you bro!"
 
 
-#### Output
+* Output
+
 
     {
       "output": " You as well. I hope you have a great day. I'm off to work now."
