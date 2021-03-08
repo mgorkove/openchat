@@ -79,6 +79,12 @@ function requestChat(userId, messageText) {
 function onSendButtonClicked() {
     let messageText = getMessageText();
     let userId = document.getElementById("userId").value
+
+    if (userId == '') {
+        document.getElementById('warning').innerText = 'Please fill text!';
+        return ;
+    }
+
     sendMessage(messageText, 'right');
     return requestChat(userId, messageText);
 }

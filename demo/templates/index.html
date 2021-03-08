@@ -5,7 +5,7 @@
     <title>OPEN CHAT</title>
     <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}" type="text/javascript"></script>
-    <script src="{{ url_for('static', filename='js/main_ver5.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/main_ver6.js') }}" type="text/javascript"></script>
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">
     <link href="{{ url_for('static', filename='css/main_ver2.css') }}" rel="stylesheet" id="main-css">
     <script>
@@ -26,7 +26,8 @@
 
         <div class="user_id">
             <label>What's your nickname?&nbsp;&nbsp;</label>
-            <input id="userId" class="user_id_input">
+            <input id="userId" class="user_id_input"><br>
+            <b><label id="warning" style="color:red;"></label></b>
         </div>
 
         <!-- chatting -->
