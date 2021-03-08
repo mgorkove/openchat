@@ -37,12 +37,16 @@ class WebDemoEnv(BaseEnv):
 
                     for requests in request_batch:
                         try:
-                            requests["output"] = model.predict(requests['input'][0], requests['input'][1])
-
+                            requests["output"] = message_generate(requests['input'][0], requests['input'][1])
                         except Exception as e:
                             requests["output"] = e
 
         handler = Thread(target=handle_requests_by_batch).start()
+
+        def message_generate(user_id, text):
+            result = model.predict(user_id=user_id, text=text)
+
+            return result
 
         ##
         # Sever health checking page.
