@@ -81,7 +81,7 @@ function onSendButtonClicked() {
     let userId = document.getElementById("userId").value
 
     if (userId == '') {
-        document.getElementById('warning').innerText = 'Please fill text!';
+        document.getElementById('warning').innerText = 'Please fill Nickname!';
         return ;
     }
 
