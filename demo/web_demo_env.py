@@ -1,5 +1,5 @@
 from typing import Dict
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 
 from openchat.envs import BaseEnv
@@ -58,39 +58,43 @@ class WebDemoEnv(BaseEnv):
         def send(user_id):
 
             if self.requests_queue.qsize() > self.BATCH_SIZE:
-                return {'output': 'Error, Too Many Requests'}
+                return jsonify({'message': 'Too Many Requests'}), 429
 
             try:
                 text = request.form['text']
-            except:
-                return {'message': 'Error, Invalid request'}
+            except Exception as e:
+                return jsonify({'message': e}), 500
 
-            if text in self.keywords:
-                # Format of self.keywords dictionary
-                # self.keywords['/exit'] = (exit_function, 'good bye.')
+            try:
+                if text in self.keywords:
+                    # Format of self.keywords dictionary
+                    # self.keywords['/exit'] = (exit_function, 'good bye.')
 
-                _out = self.keywords[text][1]
-                # text to print when keyword triggered
+                    _out = self.keywords[text][1]
+                    # text to print when keyword triggered
 
-                self.keywords[text][0](user_id, text)
-                # function to operate when keyword triggered
+                    self.keywords[text][0](user_id, text)
+                    # function to operate when keyword triggered
 
-            else:
-                args = []
+                else:
+                    args = []
 
-                args.append(user_id)
-                args.append(text)
+                    args.append(user_id)
+                    args.append(text)
 
-                # input a request on queue
-                req = {'input': args}
-                self.requests_queue.put(req)
+                    # input a request on queue
+                    req = {'input': args}
+                    self.requests_queue.put(req)
 
-                # wait
-                while 'output' not in req:
-                    time.sleep(self.CHECK_INTERVAL)
+                    # wait
+                    while 'output' not in req:
+                        time.sleep(self.CHECK_INTERVAL)
 
-                _out = req['output']
+                    _out = req['output']
 
-            return {"output": _out}
+                return {"output": _out}
+
+            except Exception as e:
+                return jsonify({'message': e}), 500
 
         self.app.run(host="0.0.0.0", port=8080)
