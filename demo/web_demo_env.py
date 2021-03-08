@@ -98,4 +98,4 @@ class WebDemoEnv(BaseEnv):
                 return jsonify({'message': e}), 500
 
         from waitress import serve
-        serve(self.app, port=8080, host='0.0.0.0')
+        serve(self.app, port=80, host='0.0.0.0')
