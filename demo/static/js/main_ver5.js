@@ -58,9 +58,10 @@ function greet() {
 
 function requestChat(userId, messageText) {
     $.ajax({
-        url: "/send/" + userId + "/" + messageText,
+        url: "/send/" + userId,
         type: "POST",
         dataType: "json",
+        data: {"text": messageText},
         success: function (data) {
             console.log(data)
             return sendMessage(data["output"], 'left');
@@ -77,6 +78,7 @@ function requestChat(userId, messageText) {
 
 function onSendButtonClicked() {
     let messageText = getMessageText();
+    let userId = document.getElementById("userId").value
     sendMessage(messageText, 'right');
-    return requestChat("USER_ID", messageText);
+    return requestChat(userId, messageText);
 }
