@@ -45,7 +45,11 @@ class WebDemoEnv(BaseEnv):
         handler = Thread(target=handle_requests_by_batch).start()
 
         def message_generate(user_id, text):
-            result = model.predict(user_id=user_id, text=text)
+            try:
+                result = model.predict(user_id=user_id, text=text)
+            except Exception as e:
+                print(e)
+                result = 'error :('
 
             return result
 
