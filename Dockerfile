@@ -10,6 +10,7 @@ RUN pip install transformers \
     flask \
     Flask-Cors \
     openchat \
+    waitress \
     torch
 
 WORKDIR /app

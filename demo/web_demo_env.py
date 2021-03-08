@@ -97,4 +97,5 @@ class WebDemoEnv(BaseEnv):
             except Exception as e:
                 return jsonify({'message': e}), 500
 
-        self.app.run(host="0.0.0.0", port=8080)
+        from waitress import serve
+        serve(self.app, port=8080, host='0.0.0.0')
