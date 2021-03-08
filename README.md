@@ -1,4 +1,7 @@
 # OpenChat: Opensource chatting framework for generative models
+
+[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/fpem123/openchat)
+
 ```
     ____   ____   ______ _   __   ______ __  __ ___   ______
    / __ \ / __ \ / ____// | / /  / ____// / / //   | /_  __/
@@ -22,6 +25,20 @@ pip install openchat
 - [DialoGPT](https://arxiv.org/abs/1911.00536) : [small, medium, large]
 - [BlenderBot](https://arxiv.org/abs/2004.13637) : [small, medium, large, xlarge]
 - Coming Soon...
+
+<br><br>
+
+## Try it out
+
+### With CLI
+
+### With Demo
+
+Demo page: [End-point](https://main-openchat-fpem123.endpoint.ainize.ai/)
+
+### With Swagger
+
+API page: [In Ainize](https://ainize.ai/fpem123/openchat?branch=main)
 
 <br><br>
 
