@@ -1,19 +1,48 @@
 from typing import Dict
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_cors import CORS
 
 from openchat.envs import BaseEnv
 from openchat.models import BaseModel
+
+from queue import Queue, Empty
+from threading import Thread
+import time
 
 
 class WebDemoEnv(BaseEnv):
 
     def __init__(self):
         super().__init__()
+        self.BATCH_SIZE = 1
+        self.CHECK_INTERVAL = 0.1
+        self.requests_queue = Queue()
         self.app = Flask(__name__)
         CORS(self.app)
 
     def run(self, model: BaseModel):
+
+        ##
+        # Request handler.
+        # GPU app can process only one request in one time.
+        def handle_requests_by_batch():
+            while True:
+                request_batch = []
+
+                while not (len(request_batch) >= self.BATCH_SIZE):
+                    try:
+                        request_batch.append(self.requests_queue.get(timeout=self.CHECK_INTERVAL))
+                    except Empty:
+                        continue
+
+                    for requests in request_batch:
+                        try:
+                            requests["output"] = model.predict(requests['input'][0], requests['input'][1])
+
+                        except Exception as e:
+                            requests["output"] = e
+
+        handler = Thread(target=handle_requests_by_batch).start()
 
         ##
         # Sever health checking page.
@@ -25,8 +54,16 @@ class WebDemoEnv(BaseEnv):
         def index():
             return render_template("index.html", title=model.name)
 
-        @self.app.route('/send/<user_id>/<text>', methods=['POST'])
-        def send(user_id, text: str) -> Dict[str, str]:
+        @self.app.route('/send/<user_id>', methods=['POST'])
+        def send(user_id):
+
+            if self.requests_queue.qsize() > self.BATCH_SIZE:
+                return {'output': 'Error, Too Many Requests'}
+
+            try:
+                text = request.form['text']
+            except:
+                return {'message': 'Error, Invalid request'}
 
             if text in self.keywords:
                 # Format of self.keywords dictionary
@@ -39,7 +76,20 @@ class WebDemoEnv(BaseEnv):
                 # function to operate when keyword triggered
 
             else:
-                _out = model.predict(user_id, text)
+                args = []
+
+                args.append(user_id)
+                args.append(text)
+
+                # input a request on queue
+                req = {'input': args}
+                self.requests_queue.put(req)
+
+                # wait
+                while 'output' not in req:
+                    time.sleep(self.CHECK_INTERVAL)
+
+                _out = req['output']
 
             return {"output": _out}
 
