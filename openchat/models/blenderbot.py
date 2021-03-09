@@ -102,15 +102,19 @@ class BlenderBot(BaseModel):
         input_tokens = torch.cat(input_ids_list, dim=-1)
         input_tokens = input_tokens.to(self.device)
 
-        output_ids = self.model.generate(
-            input_tokens,
-            max_length=1024,
-            num_beams=num_beams,
-            do_sample=True,
-            top_k=top_k,
-            top_p=top_p,
-            no_repeat_ngram_size=4,
-        )[0]
+        try:
+            output_ids = self.model.generate(
+                input_tokens,
+                max_length=1024,
+                num_beams=num_beams,
+                do_sample=True,
+                top_k=top_k,
+                top_p=top_p,
+                no_repeat_ngram_size=4,
+            )[0]
+
+        except Exception as e:
+            print(e)
 
         next_utterance = self.tokenizer.decode(
             output_ids.tolist(),

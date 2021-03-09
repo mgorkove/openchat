@@ -1,4 +1,3 @@
-from typing import Dict
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 
@@ -8,6 +7,7 @@ from openchat.models import BaseModel
 from queue import Queue, Empty
 from threading import Thread
 import time
+import traceback
 
 
 class WebDemoEnv(BaseEnv):
@@ -40,6 +40,7 @@ class WebDemoEnv(BaseEnv):
                         try:
                             requests["output"] = message_generate(requests['input'][0], requests['input'][1])
                         except Exception as e:
+                            traceback.print_exc()
                             requests["output"] = e
 
         handler = Thread(target=handle_requests_by_batch).start()
@@ -51,6 +52,7 @@ class WebDemoEnv(BaseEnv):
                                        top_k=80)
             except Exception as e:
                 print(e)
+                traceback.print_exc()
                 result = 'error :('
 
             return result
@@ -107,6 +109,7 @@ class WebDemoEnv(BaseEnv):
                 return {"output": _out}
 
             except Exception as e:
+                traceback.print_exc()
                 return jsonify({'message': e}), 500
 
         from waitress import serve
