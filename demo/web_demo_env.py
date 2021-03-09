@@ -46,7 +46,9 @@ class WebDemoEnv(BaseEnv):
 
         def message_generate(user_id, text):
             try:
-                result = model.predict(user_id=user_id, text=text)
+                result = model.predict(user_id=user_id,
+                                       text=text,
+                                       top_k=80)
             except Exception as e:
                 print(e)
                 result = 'error :('

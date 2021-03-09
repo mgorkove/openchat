@@ -68,7 +68,7 @@ class DialoGPT(BaseModel):
             bot_tokens = self.tokenizer.encode(bot, return_tensors='pt')
             num_of_stacked_tokens += user_tokens.shape[-1] + bot_tokens.shape[-1]
 
-            if num_of_stacked_tokens <= self.max_context_length:
+            if num_of_stacked_tokens < self.max_context_length:
                 input_ids_list.append(bot_tokens)
                 input_ids_list.append(user_tokens)
 
@@ -87,6 +87,7 @@ class DialoGPT(BaseModel):
             input_tokens,
             max_length=1024,
             num_beams=num_beams,
+            do_sample=True,
             pad_token_id=self.tokenizer.eos_token_id,
             top_k=top_k,
             top_p=top_p,

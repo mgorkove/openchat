@@ -79,15 +79,15 @@ class BlenderBot(BaseModel):
         if user_id not in self.env.histories.keys():
             self.env.clear(user_id, text)
 
-        user_histories = reversed(self.env.histories[user_id]['user'])
-        bot_histories = reversed(self.env.histories[user_id]['bot'])
+        user_histories = reversed(self.env.histories[user_id]['user'][-3:])
+        bot_histories = reversed(self.env.histories[user_id]['bot'][-3:])
 
         for user, bot in zip(user_histories, bot_histories):
             user_tokens = self.tokenizer.encode(user, return_tensors='pt')
             bot_tokens = self.tokenizer.encode(bot, return_tensors='pt')
             num_of_stacked_tokens += user_tokens.shape[-1] + bot_tokens.shape[-1]
 
-            if num_of_stacked_tokens <= self.max_context_length:
+            if num_of_stacked_tokens < self.max_context_length:
                 input_ids_list.append(bot_tokens)
                 input_ids_list.append(user_tokens)
 
@@ -106,6 +106,7 @@ class BlenderBot(BaseModel):
             input_tokens,
             max_length=1024,
             num_beams=num_beams,
+            do_sample=True,
             top_k=top_k,
             top_p=top_p,
             no_repeat_ngram_size=4,
@@ -118,5 +119,10 @@ class BlenderBot(BaseModel):
 
         self.env.histories[user_id]['user'].append(text + self.eos)
         self.env.histories[user_id]['bot'].append(next_utterance + self.eos)
+
+        if len(self.env.histories[user_id]['user']) > 10:
+            self.env.histories[user_id]['user'] = self.env.histories[user_id]['user'].pop(0)
+        if len(self.env.histories[user_id]['bot']) > 10:
+            self.env.histories[user_id]['bot'] = self.env.histories[user_id]['bot'].pop(0)
 
         return next_utterance

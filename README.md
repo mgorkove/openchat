@@ -66,8 +66,8 @@ API page: [In Ainize](https://ainize.ai/fpem123/openchat?branch=main)
 - You can add additional user keywords. (Details are described below.)
 
 ```python
->>> from openchat import OpenChat
->>> OpenChat(model="blenderbot", size="large")
+>> > from openchat import OpenChat
+>> > OpenChat(model="blenderbot", size="large")
 ```
 ```
 Chat with facebook/blenderbot-1B-distill !
@@ -87,9 +87,10 @@ bot : good bye.
 <br>
 
 - If you want to use GPU, use argument `device="cuda"`
+
 ```python
->>> from openchat import OpenChat
->>> OpenChat(model="blenderbot", size="large", device="cuda")
+>> > from openchat import OpenChat
+>> > OpenChat(model="blenderbot", size="large", device="cuda")
 ```
 
 <br>
@@ -151,6 +152,7 @@ class WebDemoEnv(BaseEnv):
 <br>
 
 #### 2.2. Start to run application.
+
 ```python
 from openchat import OpenChat
 from demo.web_demo_env import WebDemoEnv
@@ -171,14 +173,14 @@ from openchat.envs import BaseEnv
 
 
 class YourOwnEnv(BaseEnv):
-    
+
     def __init__(self):
         super().__init__()
         self.add_keyword(".new_keyword", "message to print", self.function)
 
     def function(self, user_id: str, text: str):
         """do something !"""
-        
+
 ```
 <br><br>
 
@@ -203,12 +205,13 @@ class YourOwnEnv(BaseEnv):
 
 #### 3.3. Check histories
 - You can check all dialogue history using `self.histories`
+
 ```python
 from openchat.envs import BaseEnv
 
 
 class YourOwnEnv(BaseEnv):
-    
+
     def __init__(self):
         super().__init__()
         print(self.histories)
@@ -225,22 +228,22 @@ class YourOwnEnv(BaseEnv):
 
 #### 3.4. Clear histories
 - You can clear all dialogue histories
+
 ```python
 from flask import Flask
 from openchat.envs import BaseEnv
 from openchat.models import BaseModel
 
+
 class YourOwnEnv(BaseEnv):
-    
+
     def __init__(self):
         super().__init__()
         self.app = Flask(__name__)
 
     def run(self, model: BaseModel):
-        
         @self.app.route('/send/<user_id>/<text>', methods=['GET'])
         def send(user_id, text: str) -> Dict[str, str]:
-            
             self.clear(user_id, text)
             # clear all histories ! 
 
