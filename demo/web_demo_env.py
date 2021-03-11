@@ -1,13 +1,17 @@
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
-
-from openchat.envs import BaseEnv
-from openchat.models import BaseModel
-
+import os
+import sys
 from queue import Queue, Empty
 from threading import Thread
 import time
 import traceback
+
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
+
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+from openchat.envs import BaseEnv
+from openchat.models import BaseModel
 
 
 class WebDemoEnv(BaseEnv):
