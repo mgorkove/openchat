@@ -32,7 +32,6 @@ class WebDemoEnv(BaseEnv):
                 while not (len(request_batch) >= self.BATCH_SIZE):
                     try:
                         request_batch.append(self.requests_queue.get(timeout=self.CHECK_INTERVAL))
-                        print(self.requests_queue.queue)
                     except Empty:
                         continue
 
@@ -98,7 +97,6 @@ class WebDemoEnv(BaseEnv):
                     # input a request on queue
                     req = {'input': args}
                     self.requests_queue.put(req)
-                    print(self.requests_queue.queue)
 
                     # wait
                     while 'output' not in req:

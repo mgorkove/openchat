@@ -1,1 +1,1 @@
-import openchat
+from ... import openchat

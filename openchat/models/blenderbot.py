@@ -6,6 +6,7 @@ from transformers import (
     BlenderbotForConditionalGeneration,
     BlenderbotTokenizer,
 )
+import traceback
 
 
 class BlenderBot(BaseModel):
@@ -79,8 +80,8 @@ class BlenderBot(BaseModel):
         if user_id not in self.env.histories.keys():
             self.env.clear(user_id, text)
 
-        user_histories = reversed(self.env.histories[user_id]['user'][-3:])
-        bot_histories = reversed(self.env.histories[user_id]['bot'][-3:])
+        user_histories = reversed(self.env.histories[user_id]['user'])
+        bot_histories = reversed(self.env.histories[user_id]['bot'])
 
         for user, bot in zip(user_histories, bot_histories):
             user_tokens = self.tokenizer.encode(user, return_tensors='pt')
@@ -115,6 +116,8 @@ class BlenderBot(BaseModel):
 
         except Exception as e:
             print(e)
+            self.env.clear(user_id, text)
+            traceback.print_exc()
 
         next_utterance = self.tokenizer.decode(
             output_ids.tolist(),
@@ -125,8 +128,8 @@ class BlenderBot(BaseModel):
         self.env.histories[user_id]['bot'].append(next_utterance + self.eos)
 
         if len(self.env.histories[user_id]['user']) > 10:
-            self.env.histories[user_id]['user'] = self.env.histories[user_id]['user'].pop(0)
+            self.env.histories[user_id]['user'].pop(0)
         if len(self.env.histories[user_id]['bot']) > 10:
-            self.env.histories[user_id]['bot'] = self.env.histories[user_id]['bot'].pop(0)
+            self.env.histories[user_id]['bot'].pop(0)
 
         return next_utterance
