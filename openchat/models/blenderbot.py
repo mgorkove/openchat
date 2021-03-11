@@ -75,33 +75,48 @@ class BlenderBot(BaseModel):
 
         torch.cuda.empty_cache()
         input_ids_list: list = []
-        num_of_stacked_tokens: int = 0
 
         if user_id not in self.env.histories.keys():
             self.env.clear(user_id, text)
+            self.past[user_id] = None
 
         user_histories = reversed(self.env.histories[user_id]['user'])
         bot_histories = reversed(self.env.histories[user_id]['bot'])
 
+        # new message
+        new_input = text + self.eos
+        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
+        num_of_stacked_tokens = input_tokens.shape[-1]
+
+        if num_of_stacked_tokens > self.max_context_length:
+            return "It's a very long sentence. Please be a little short :D"
+
+        # older
         for user, bot in zip(user_histories, bot_histories):
             user_tokens = self.tokenizer.encode(user, return_tensors='pt')
             bot_tokens = self.tokenizer.encode(bot, return_tensors='pt')
-            num_of_stacked_tokens += user_tokens.shape[-1] + bot_tokens.shape[-1]
+
+            num_of_stacked_tokens += bot_tokens.shape[-1]
 
             if num_of_stacked_tokens < self.max_context_length:
                 input_ids_list.append(bot_tokens)
-                input_ids_list.append(user_tokens)
+            else:
+                break
 
+            num_of_stacked_tokens += user_tokens.shape[-1]
+
+            if num_of_stacked_tokens < self.max_context_length:
+                input_ids_list.append(user_tokens)
             else:
                 break
 
         input_ids_list = list(reversed(input_ids_list))
-        new_input = text + self.eos
-        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
         input_ids_list.append(input_tokens)
 
         input_tokens = torch.cat(input_ids_list, dim=-1)
         input_tokens = input_tokens.to(self.device)
+
+        print('Start generating')
 
         try:
             output_ids = self.model.generate(
