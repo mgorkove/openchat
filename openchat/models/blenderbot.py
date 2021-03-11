@@ -78,7 +78,6 @@ class BlenderBot(BaseModel):
 
         if user_id not in self.env.histories.keys():
             self.env.clear(user_id, text)
-            self.past[user_id] = None
 
         user_histories = reversed(self.env.histories[user_id]['user'])
         bot_histories = reversed(self.env.histories[user_id]['bot'])
