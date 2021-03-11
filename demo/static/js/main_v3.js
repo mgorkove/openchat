@@ -53,6 +53,10 @@ function greet() {
     setTimeout(function () {
         return sendMessage("Say hello to AI.", 'left');
     }, 3000);
+
+    setTimeout(function () {
+        return sendMessage('Type ".clear" if you want to clear the conversation.', 'left');
+    }, 4000);
 }
 
 
