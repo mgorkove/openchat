@@ -82,12 +82,14 @@ function requestChat(userId, messageText) {
 
 function onSendButtonClicked() {
     let messageText = getMessageText();
-    let userId = document.getElementById("userId").value
+    let userId = document.getElementById("userId").value;
 
     if (userId == '') {
         document.getElementById('warning').innerText = 'Please fill Nickname!';
         return ;
     }
+
+    userId = btoa(userId);
 
     sendMessage(messageText, 'right');
     return requestChat(userId, messageText);

@@ -96,10 +96,6 @@ class WebDemoEnv(BaseEnv):
                 else:
                     args = []
 
-                    id_bytes = user_id.encode('ascii')
-                    user_id = base64.b64encode(id_bytes)
-                    user_id = user_id.decode('ascii')
-
                     args.append(user_id)
                     args.append(text)
 
