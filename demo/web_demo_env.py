@@ -96,7 +96,7 @@ class WebDemoEnv(BaseEnv):
                 else:
                     args = []
 
-                    user_id = base64.b64encode(user_id)
+                    #user_id = base64.b64encode(user_id)
 
                     args.append(user_id)
                     args.append(text)
