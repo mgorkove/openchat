@@ -84,8 +84,7 @@ class BlenderBot(BaseModel):
 
         # new message
         new_input = text + self.eos
-        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
-        num_of_stacked_tokens = input_tokens.shape[-1]
+        num_of_stacked_tokens = self.tokenizer.encode(new_input, return_tensors='pt').shape[-1]
 
         if num_of_stacked_tokens > self.max_context_length:
             return "It's a very long sentence. Please be a little short :D"
@@ -105,6 +104,7 @@ class BlenderBot(BaseModel):
                 break
 
         input_ids_list = list(reversed(input_ids_list))
+        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
         input_ids_list.append(input_tokens)
 
         input_tokens = torch.cat(input_ids_list, dim=-1)

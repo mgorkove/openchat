@@ -83,6 +83,7 @@ class DialoGPT(BaseModel):
                 break
 
         input_ids_list = list(reversed(input_ids_list))
+        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
         input_ids_list.append(input_tokens)
 
         input_tokens = torch.cat(input_ids_list, dim=-1)
