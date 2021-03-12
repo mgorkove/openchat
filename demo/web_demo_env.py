@@ -1,8 +1,9 @@
-import os
-import sys
 from queue import Queue, Empty
 from threading import Thread
+import os
+import sys
 import time
+import base64
 import traceback
 
 from flask import Flask, render_template, request, jsonify
@@ -94,6 +95,8 @@ class WebDemoEnv(BaseEnv):
 
                 else:
                     args = []
+
+                    user_id = base64.b64encode(user_id)
 
                     args.append(user_id)
                     args.append(text)
