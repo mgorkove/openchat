@@ -36,6 +36,13 @@ class BaseEnv(ABC):
         sys.exit(0)
 
     def master_clear(self):
+        """
+        clear all items histories
+
+        Args:
+            None
+        """
+
         self.histories = {}
 
     def clear(self, user_id: str, text: str) -> None:
@@ -46,6 +53,13 @@ class BaseEnv(ABC):
             user_id (str): user id to clear histories
             text (str): input text from user
         """
+
+        if len(self.histories.keys()) > 20:
+            """
+                history can hold maximum 20
+            """
+            target = list(self.histories.keys())[0]
+            del self.histories[target]
 
         self.histories[user_id] = {"user": [], "bot": []}
 
