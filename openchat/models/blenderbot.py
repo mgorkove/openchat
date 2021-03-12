@@ -133,6 +133,7 @@ class BlenderBot(BaseModel):
             self.env.histories[user_id]['user'].append(text + self.eos)
             self.env.histories[user_id]['bot'].append(next_utterance + self.eos)
 
+            # max hold 3 histories
             if len(self.env.histories[user_id]['user']) > 3:
                 self.env.histories[user_id]['user'].pop(0)
             if len(self.env.histories[user_id]['bot']) > 3:

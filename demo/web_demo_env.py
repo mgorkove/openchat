@@ -78,7 +78,12 @@ class WebDemoEnv(BaseEnv):
                 return jsonify({'message': 'Too Many Requests'}), 429
 
             try:
+                text: str
+
                 text = request.form['text']
+                text.replace('<', '')
+                text.replace('>', '')
+
             except Exception as e:
                 return jsonify({'message': e}), 500
 
