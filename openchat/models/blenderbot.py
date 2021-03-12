@@ -73,46 +73,52 @@ class BlenderBot(BaseModel):
 
         """
 
-        torch.cuda.empty_cache()
-        input_ids_list: list = []
-
-        if user_id not in self.env.histories.keys():
-            self.env.clear(user_id, text)
-
-        user_histories = reversed(self.env.histories[user_id]['user'])
-        bot_histories = reversed(self.env.histories[user_id]['bot'])
-
-        # new message
-        new_input = text + self.eos
-        num_of_stacked_tokens = self.tokenizer.encode(new_input, return_tensors='pt').shape[-1]
-
-        if num_of_stacked_tokens > self.max_context_length:
-            return "It's a very long sentence. Please be a little short :D"
-
-        # older
-        for user, bot in zip(user_histories, bot_histories):
-            user_tokens = self.tokenizer.encode(user, return_tensors='pt')
-            bot_tokens = self.tokenizer.encode(bot, return_tensors='pt')
-
-            num_of_stacked_tokens += bot_tokens.shape[-1]
-            num_of_stacked_tokens += user_tokens.shape[-1]
-
-            if num_of_stacked_tokens < self.max_context_length:
-                input_ids_list.append(bot_tokens)
-                input_ids_list.append(user_tokens)
-            else:
-                break
-
-        input_ids_list = list(reversed(input_ids_list))
-        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
-        input_ids_list.append(input_tokens)
-
-        input_tokens = torch.cat(input_ids_list, dim=-1)
-        input_tokens = input_tokens.to(self.device)
-
-        print('Start generating')
+        try:
+            torch.cuda.empty_cache()
+        except:
+            self.env.master_clear()
 
         try:
+
+            input_ids_list: list = []
+            len(text)
+
+            if user_id not in self.env.histories.keys():
+                self.env.clear(user_id, text)
+
+            user_histories = reversed(self.env.histories[user_id]['user'])
+            bot_histories = reversed(self.env.histories[user_id]['bot'])
+
+            # new message
+            new_input = text + self.eos
+            num_of_stacked_tokens = self.tokenizer.encode(new_input, return_tensors='pt').shape[-1]
+
+            if num_of_stacked_tokens > self.max_context_length:
+                return "It's a very long sentence. Please be a little short :D"
+
+            # older
+            for user, bot in zip(user_histories, bot_histories):
+                user_tokens = self.tokenizer.encode(user, return_tensors='pt')
+                bot_tokens = self.tokenizer.encode(bot, return_tensors='pt')
+
+                num_of_stacked_tokens += bot_tokens.shape[-1]
+                num_of_stacked_tokens += user_tokens.shape[-1]
+
+                if num_of_stacked_tokens < self.max_context_length:
+                    input_ids_list.append(bot_tokens)
+                    input_ids_list.append(user_tokens)
+                else:
+                    break
+
+            input_ids_list = list(reversed(input_ids_list))
+            input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
+            input_ids_list.append(input_tokens)
+
+            input_tokens = torch.cat(input_ids_list, dim=-1)
+            input_tokens = input_tokens.to(self.device)
+
+            print('Start generating')
+
             output_ids = self.model.generate(
                 input_tokens,
                 max_length=1024,
@@ -123,22 +129,23 @@ class BlenderBot(BaseModel):
                 no_repeat_ngram_size=4,
             )[0]
 
+            next_utterance = self.tokenizer.decode(
+                output_ids.tolist(),
+                skip_special_tokens=True,
+            ).replace("Ġ", "").replace("  ", "")
+
+            self.env.histories[user_id]['user'].append(text + self.eos)
+            self.env.histories[user_id]['bot'].append(next_utterance + self.eos)
+
+            if len(self.env.histories[user_id]['user']) > 3:
+                self.env.histories[user_id]['user'].pop(0)
+            if len(self.env.histories[user_id]['bot']) > 3:
+                self.env.histories[user_id]['bot'].pop(0)
+
+            return next_utterance
+
         except Exception as e:
             print(e)
-            self.env.clear(user_id, text)
+            # 에러나면 전부 삭제
+            self.env.master_clear()
             traceback.print_exc()
-
-        next_utterance = self.tokenizer.decode(
-            output_ids.tolist(),
-            skip_special_tokens=True,
-        ).replace("Ġ", "").replace("  ", "")
-
-        self.env.histories[user_id]['user'].append(text + self.eos)
-        self.env.histories[user_id]['bot'].append(next_utterance + self.eos)
-
-        if len(self.env.histories[user_id]['user']) > 10:
-            self.env.histories[user_id]['user'].pop(0)
-        if len(self.env.histories[user_id]['bot']) > 10:
-            self.env.histories[user_id]['bot'].pop(0)
-
-        return next_utterance

@@ -19,7 +19,7 @@ class BaseEnv(ABC):
         }
 
         self.keywords = {
-            ".exit": (self.exit, "good bye."),
+            #".exit": (self.exit, "good bye."),
             ".clear": (self.clear, "histories cleared."),
             # .keyword: (function, message)
         }
@@ -34,6 +34,9 @@ class BaseEnv(ABC):
     def exit(user_id, text):
         exit(0)
         sys.exit(0)
+
+    def master_clear(self):
+        self.histories = {}
 
     def clear(self, user_id: str, text: str) -> None:
         """
