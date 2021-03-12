@@ -96,15 +96,10 @@ class BlenderBot(BaseModel):
             bot_tokens = self.tokenizer.encode(bot, return_tensors='pt')
 
             num_of_stacked_tokens += bot_tokens.shape[-1]
-
-            if num_of_stacked_tokens < self.max_context_length:
-                input_ids_list.append(bot_tokens)
-            else:
-                break
-
             num_of_stacked_tokens += user_tokens.shape[-1]
 
             if num_of_stacked_tokens < self.max_context_length:
+                input_ids_list.append(bot_tokens)
                 input_ids_list.append(user_tokens)
             else:
                 break
