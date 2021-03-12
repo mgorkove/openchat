@@ -72,11 +72,7 @@ class BlenderBot(BaseModel):
             (str): model's next utterance
 
         """
-
-        try:
-            torch.cuda.empty_cache()
-        except Exception as e:
-            print(e)
+        torch.cuda.empty_cache()
 
         try:
 
