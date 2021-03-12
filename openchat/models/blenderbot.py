@@ -75,8 +75,8 @@ class BlenderBot(BaseModel):
 
         try:
             torch.cuda.empty_cache()
-        except:
-            self.env.master_clear()
+        except Exception as e:
+            print(e)
 
         try:
 
