@@ -52,8 +52,7 @@ class WebDemoEnv(BaseEnv):
             try:
                 result = model.predict(user_id=user_id,
                                        text=text,
-                                       top_k=50,
-                                       top_p=0.95)
+                                       top_k=50)
             except Exception as e:
                 print(e)
                 traceback.print_exc()

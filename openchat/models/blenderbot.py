@@ -125,7 +125,7 @@ class BlenderBot(BaseModel):
                 do_sample=True,
                 top_k=top_k,
                 top_p=top_p,
-                no_repeat_ngram_size=2,
+                no_repeat_ngram_size=4,
             )[0]
 
         except Exception as e:
