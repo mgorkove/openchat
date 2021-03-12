@@ -55,13 +55,20 @@ class DialoGPT(BaseModel):
 
         torch.cuda.empty_cache()
         input_ids_list: list = []
-        num_of_stacked_tokens: int = 0
 
         if user_id not in self.env.histories.keys():
             self.env.clear(user_id, text)
 
         user_histories = reversed(self.env.histories[user_id]['user'])
         bot_histories = reversed(self.env.histories[user_id]['bot'])
+
+        # new message
+        new_input = text + self.eos
+        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
+        num_of_stacked_tokens = input_tokens.shape[-1]
+
+        if num_of_stacked_tokens > self.max_context_length:
+            return "It's a very long sentence. Please be a little short :D"
 
         for user, bot in zip(user_histories, bot_histories):
             user_tokens = self.tokenizer.encode(user, return_tensors='pt')
@@ -76,12 +83,12 @@ class DialoGPT(BaseModel):
                 break
 
         input_ids_list = list(reversed(input_ids_list))
-        new_input = text + self.eos
-        input_tokens = self.tokenizer.encode(new_input, return_tensors='pt')
         input_ids_list.append(input_tokens)
 
         input_tokens = torch.cat(input_ids_list, dim=-1)
         input_tokens = input_tokens.to(self.device)
+
+        print('Start generating')
 
         output_ids = self.model.generate(
             input_tokens,
