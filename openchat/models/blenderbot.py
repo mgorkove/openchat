@@ -7,6 +7,7 @@ from transformers import (
     BlenderbotTokenizer,
 )
 import traceback
+import sys
 
 
 class BlenderBot(BaseModel):
@@ -150,10 +151,8 @@ class BlenderBot(BaseModel):
 
         except RuntimeError as r:
             print(r)
-            print('restart')
-            self.is_block = True
-            self.__init__(self.size, self.env, self.device, self.max_context_length)
-            self.is_block = False
+            exit(0)
+            sys.exit(0)
 
         except Exception as e:
             print(e)
