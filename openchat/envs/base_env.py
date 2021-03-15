@@ -19,7 +19,7 @@ class BaseEnv(ABC):
         }
 
         self.keywords = {
-            ".exit": (self.exit, "good bye."),
+            #".exit": (self.exit, "good bye."),
             ".clear": (self.clear, "histories cleared."),
             # .keyword: (function, message)
         }
