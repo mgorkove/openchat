@@ -49,6 +49,7 @@ class BlenderBot(BaseModel):
         self.device = device.lower()
         self.max_context_length = max_context_length
         self.eos = "</s> <s>"
+        self.is_block = False
 
     @torch.no_grad()
     def predict(
@@ -73,6 +74,9 @@ class BlenderBot(BaseModel):
             (str): model's next utterance
 
         """
+        if self.is_block:
+            return "Rerunning the server model..."
+
         torch.cuda.empty_cache()
 
         try:
@@ -142,9 +146,10 @@ class BlenderBot(BaseModel):
 
             return next_utterance
 
-        except RuntimeError as c:
-            print(c)
+        except RuntimeError as r:
+            print(r)
             print('restart')
+            self.is_block = True
             self.__init__(self.size, self.env, self.device, self.max_context_length)
 
         except Exception as e:
