@@ -50,7 +50,6 @@ class BlenderBot(BaseModel):
         self.device = device.lower()
         self.max_context_length = max_context_length
         self.eos = "</s> <s>"
-        self.is_block = False
 
         print('Done!')
 
@@ -77,12 +76,9 @@ class BlenderBot(BaseModel):
             (str): model's next utterance
 
         """
-        if self.is_block:
-            return "Rerunning the server model..."
-
-        torch.cuda.empty_cache()
 
         try:
+            torch.cuda.empty_cache()
 
             input_ids_list: list = []
             len(text)
@@ -151,6 +147,8 @@ class BlenderBot(BaseModel):
 
         except RuntimeError as r:
             print(r)
+            traceback.print_exc()
+
             exit(0)
             sys.exit(0)
 
