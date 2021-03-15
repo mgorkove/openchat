@@ -78,7 +78,7 @@ class BlenderBot(BaseModel):
         """
 
         try:
-            torch.cuda.empty_cache()
+            #torch.cuda.empty_cache()
 
             input_ids_list: list = []
             len(text)
