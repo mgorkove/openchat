@@ -81,7 +81,6 @@ class BlenderBot(BaseModel):
             #torch.cuda.empty_cache()
 
             input_ids_list: list = []
-            len(text)
 
             if user_id not in self.env.histories.keys():
                 self.env.clear(user_id, text)
@@ -148,6 +147,7 @@ class BlenderBot(BaseModel):
         except RuntimeError as r:
             print(r)
             traceback.print_exc()
+            raise RuntimeError
 
         except Exception as e:
             print(e)

@@ -54,6 +54,10 @@ class WebDemoEnv(BaseEnv):
                 result = model.predict(user_id=user_id,
                                        text=text,
                                        top_k=50)
+            except RuntimeError as r:
+                print(r)
+                exit(-1)
+                sys.exit(-1)
             except Exception as e:
                 print(e)
                 traceback.print_exc()
