@@ -51,6 +51,8 @@ class BlenderBot(BaseModel):
         self.eos = "</s> <s>"
         self.is_block = False
 
+        print('Done!')
+
     @torch.no_grad()
     def predict(
         self,
@@ -151,6 +153,7 @@ class BlenderBot(BaseModel):
             print('restart')
             self.is_block = True
             self.__init__(self.size, self.env, self.device, self.max_context_length)
+            self.is_block = False
 
         except Exception as e:
             print(e)
