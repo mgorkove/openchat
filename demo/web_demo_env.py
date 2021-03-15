@@ -81,8 +81,8 @@ class WebDemoEnv(BaseEnv):
                 text: str
 
                 text = request.form['text']
-                text.replace('<', '')
-                text.replace('>', '')
+                #text = text.replace('<', '')
+                #text = text.replace('>', '')
 
             except Exception as e:
                 return jsonify({'message': e}), 500

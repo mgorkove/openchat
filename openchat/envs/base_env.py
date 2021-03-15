@@ -37,7 +37,7 @@ class BaseEnv(ABC):
 
     def master_clear(self):
         """
-        clear all items histories
+        clear all histories
 
         Args:
             None

@@ -45,6 +45,7 @@ class BlenderBot(BaseModel):
                 self.name).to(device)
             self.tokenizer = BlenderbotTokenizer.from_pretrained(self.name)
 
+        self.size = size
         self.device = device.lower()
         self.max_context_length = max_context_length
         self.eos = "</s> <s>"
@@ -141,8 +142,15 @@ class BlenderBot(BaseModel):
 
             return next_utterance
 
+        except RuntimeError as c:
+            print(c)
+            print('restart')
+            self.__init__(self.size, self.env, self.device, self.max_context_length)
+
         except Exception as e:
             print(e)
             # 에러나면 전부 삭제
             self.env.master_clear()
+
             traceback.print_exc()
+
