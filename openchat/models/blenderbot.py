@@ -149,9 +149,6 @@ class BlenderBot(BaseModel):
             print(r)
             traceback.print_exc()
 
-            exit(0)
-            sys.exit(0)
-
         except Exception as e:
             print(e)
             # 에러나면 전부 삭제
