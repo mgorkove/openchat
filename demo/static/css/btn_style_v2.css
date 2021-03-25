@@ -41,6 +41,7 @@
 .footer_facebook:hover img {
     content: url(../static/images/footer_facebook_hover.svg);
 }
+
 .footer_twitter:hover img {
     content: url(../static/images/footer_twitter_hover.svg);
 }
@@ -72,23 +73,6 @@
     margin-right: 5.5px;
 }
 
-
-@media (max-width:424px) {
-    .share_icon {
-        margin-bottom: 16px;
-    }
-
-    .share_link {
-        flex-direction: column;
-        align-items: center;
-        margin: 14px 0 100px 0;
-    }
-
-    .share_link a {
-        margin: 8px 0;
-    }
-}
-
 .con_share {
     display: flex;
     flex-direction: column;
@@ -116,4 +100,24 @@ span {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+}
+
+@media (max-width:700px) {
+    .share_icon {
+        margin-bottom: 16px;
+    }
+
+    .share_link {
+        flex-direction: column;
+        align-items: center;
+        margin: 14px 0 100px 0;
+    }
+
+    .share_link a {
+        margin: 8px 0;
+    }
+
+    #badge {
+        display: none;
+    }
 }

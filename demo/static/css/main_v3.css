@@ -8,12 +8,17 @@ body {
 }
 
 
+.site_title{
+    font-size: 30px;
+}
+
 .intro {
     position: Relative;
+    display: block;
     width: calc(100% - 20px);
     border-radius: 10px;
     max-width: 800px;
-    height: 200px;
+    margin: 10px 0 30px 0;
     left: 50%;
     top: 0%;
     transform: translateX(-50%) translateY(10%);
@@ -21,10 +26,11 @@ body {
 
 .user_id {
     position: Relative;
+    display: block;
     width: calc(100% - 20px);
     border-radius: 10px;
     max-width: 800px;
-    height: 80px;
+    margin: 10px 0 30px 0;
     left: 50%;
     top: 10%;
     transform: translateX(-50%) translateY(15%);
@@ -241,4 +247,61 @@ body {
 
 .message_template {
     display: none;
+}
+
+@media (max-width:550px) {
+    #send_message{
+        display: none;
+        width: 0px;
+        height: 0px;
+        font-size: 0px;
+        font-weight: 0;
+        line-height: 0px;
+    }
+
+    .bottom_wrapper .message_input_wrapper{
+        font-size: 13px;
+        width: calc(100% - 5px);
+    }
+
+    .messages .message .avatar {
+        transform: translateY(30%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .messages .message .text_wrapper .text {
+        font-size: 13px;
+        font-weight: 300;
+    }
+
+    .intro{
+        position:relative;
+        display: block;
+        transform: translateX(-50%);
+        font-size: 13px;
+        font-weight: 300;
+        margin: 10px 0 10px 0;
+
+    }
+
+    .user_id{
+        margin: 10px 0 30px 0;
+        position:relative;
+        display: block;
+        transform: translateX(-50%);
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    .chat_window {
+        position:relative;
+        transform: translateX(-50%);
+    }
+
+    .site_title{
+        font-size: 20px;
+    }
 }
