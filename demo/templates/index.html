@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="UTF-8">
-    <title>OPEN CHAT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- script -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/main_v4.js') }}" type="text/javascript"></script>
-    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">
-    <link href="{{ url_for('static', filename='css/main_ver2.css') }}" rel="stylesheet" id="main-css">
     <script>
         greet();
         onClickAsEnter();
     </script>
+
+    <!-- css -->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">
+    <link href="{{ url_for('static', filename='css/main_ver2.css') }}" rel="stylesheet" id="main-css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
+
+    <title>OPEN CHAT</title>
 </head>
 
 <body>
     <div class="container">
         <!-- Project title -->
         <div class="intro">
-            <h1>Open chat</h1><br>
-            <a>Origin Git hub repository : </a> <a href="https://github.com/hyunwoongko/openchat" target="_blank">hyunwoongko/openchat</a><br>
-            <a>My Git hub repository : </a> <a href="https://github.com/fpem123/openchat" target="_blank">fpem123/openchat</a><br>
+            <h1>Chatting with AI, Openchat</h1><br>
+            <a>Original GitHub Repository : </a> <a href="https://github.com/hyunwoongko/openchat" target="_blank">hyunwoongko/openchat</a><br>
             <a>Open API : </a> <a href="https://ainize.ai/fpem123/openchat?branch=main" target="_blank">On Ainize</a><br>
         </div>
 
@@ -69,6 +76,39 @@
         </div>
     </div>
 
+    <div class="con_share">
+        <h2 class="share_text">Share openchat</h2>
+        <div class="share_icon">
+            <a class="footer_link" style="cursor: pointer;" target="_blank">
+                <span class="tooltip_text">
+                    <h4>COPIED!</h4>
+                </span>
+                <img src="{{ url_for('static', filename='images/footer_link.svg') }}">
+            </a>
+            <a class="footer_facebook" href="#" style="cursor: pointer;">
+                <img src="{{ url_for('static', filename='images/footer_facebook.svg') }}">
+            </a>
+            <a class="footer_twitter" href="#" style="cursor: pointer;">
+                <img src="{{ url_for('static', filename='images/footer_twitter.svg') }}">
+            </a>
+        </div>
+        <div class="share_link">
+            <a href="https://ainize.ai/" class="footer_ainize" target="_blank">
+                <div class="share_ainize">
+                    <img src="{{ url_for('static', filename='images/footer_ainize.svg') }}">
+                <h4>Powered by Ainize</h4>
+                </div>
+            </a>
+            <a href="https://github.com/fpem123/openchat" class="footer_git" target="_blank">
+                <div class="share_git">
+                    <img src="{{ url_for('static', filename='images/footer_git.svg') }}">
+                <h4>Contribute on GitHub</h4>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Badge -->
     <div id="badge" OnClick="location.href='https://join.slack.com/t/ainetwork-dev/shared_invite/zt-c89mb8z9-IqaCsNmsNLXKNylKXrJTTg'"
         style="position: fixed; bottom: 40px; right: 40px; filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25)); cursor:pointer;">
         <svg width="254" height="80" viewBox="0 0 254 80" fill="none" xmlns="http://www.w3.org/2000/svg">
