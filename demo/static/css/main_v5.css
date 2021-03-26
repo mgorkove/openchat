@@ -259,6 +259,12 @@ body {
         line-height: 0px;
     }
 
+
+    .top_menu .title{
+        font-size: 15px;
+    }
+
+
     .bottom_wrapper .message_input_wrapper{
         font-size: 13px;
         width: calc(100% - 5px);
@@ -303,5 +309,11 @@ body {
 
     .site_title{
         font-size: 20px;
+    }
+}
+
+@media (max-width: 500px){
+    .buttons{
+        display: none;
     }
 }
