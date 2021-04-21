@@ -27,10 +27,11 @@ class VariousWebServerEnvironment(BaseEnvironment):
         self.app = Flask(__name__)
         self.requests_queue = Queue()
         self.users = []
-        self.agents = {}
+        self.agents = {}    # key=agent name, value=agent obj
         CORS(self.app)
 
     def start(self, agents: list, **kwargs):
+        # parsing conformed model name and obj
         for agent_obj in agents:
             agent_obj: BaseAgent
             self.agents[agent_obj.name] = agent_obj
@@ -68,6 +69,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         # generate bot's message
         def generate(user_id, bot_id, user_message, topic, agent):
+            # get agent obj
             agent = self.agents[agent]
 
             # add new user
