@@ -48,7 +48,7 @@ class WebServerEnvironment(BaseEnvironment):
                         try:
                             # 0 = user_id
                             # 1 = bot_id
-                            # 2 = text
+                            # 2 = user_message
                             # 4 = topic
                             requests["output"] = generate(requests['input'][0],
                                                           requests['input'][1],
@@ -61,7 +61,7 @@ class WebServerEnvironment(BaseEnvironment):
         Thread(target=handle_requests_by_batch).start()
 
         # generate bot's message
-        def generate(user_id, bot_id, text, topic):
+        def generate(user_id, bot_id, user_message, topic):
             # add new user
             if user_id not in self.users:
                 self.clear_histories(user_id)
@@ -71,22 +71,14 @@ class WebServerEnvironment(BaseEnvironment):
             if len(self.users) > 10:
                 self.users.pop(0)
 
-            #torch.cuda.empty_cache()
-
             if self.is_empty(user_id):
-                pre_dialog_output = self.pre_dialog_for_special_tasks(agent, user_id, bot_id, topic)
-
-            if isinstance(agent, PromptAgent):
-                user_id, bot_id = pre_dialog_output
-                user_message = text
-            else:
-                user_message = text
+                self.pre_dialog_for_special_tasks(agent, user_id, bot_id, topic)
 
             if isinstance(agent, WizardOfWikipediaAgent):
                 user_message = agent.retrieve_knowledge(user_message)
 
             if isinstance(agent, PromptAgent):
-                user_message = f"{user_id}: {user_message} {bot_id}:"
+                user_message = f"{user_id}: {user_message}</s> <s>{bot_id}:"
 
             if isinstance(agent, SingleTurn):
                 model_input = user_message

@@ -48,24 +48,27 @@ function greet() {
 
     setTimeout(function () {
         return sendMessage("Talk with AI easily using Open Chat !", 'left');
-    }, 2000);
+    }, 1500);
 
     setTimeout(function () {
         return sendMessage("Say hello to AI.", 'left');
-    }, 3000);
+    }, 2000);
 
     setTimeout(function () {
         return sendMessage('Type ".clear" if you want to clear the conversation.', 'left');
-    }, 4000);
+    }, 2500);
 }
 
 
-function requestChat(userId, messageText) {
+function requestChat(userId, botId, topic, messageText) {
     $.ajax({
         url: "/send/" + userId,
         type: "POST",
         dataType: "json",
-        data: {"text": messageText},
+        data: {"text": messageText,
+               "bot_id": botId,
+               "topic": topic},
+
         success: function (data) {
             console.log(data)
             return sendMessage(data["output"], 'left');
@@ -83,6 +86,8 @@ function requestChat(userId, messageText) {
 function onSendButtonClicked() {
     let messageText = getMessageText();
     let userId = document.getElementById("userId").value;
+    let botId = document.getElementById("botId").value;
+    let topic = document.getElementById("topic").value;
 
     if (userId == '') {
         document.getElementById('warning').innerText = 'Please fill Nickname!';
@@ -92,5 +97,5 @@ function onSendButtonClicked() {
     userId = btoa(userId);
 
     sendMessage(messageText, 'right');
-    return requestChat(userId, messageText);
+    return requestChat(userId, botId, topic, messageText);
 }
