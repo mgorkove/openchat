@@ -34,7 +34,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
         # parsing conformed model name and obj
         for agent_obj in agents:
             agent_obj: BaseAgent
-            self.agents[agent_obj.name] = agent_obj
+            self.agents[agent_obj.name.upper()] = agent_obj
 
         ##
         # Request handler.
@@ -124,7 +124,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         @self.app.route("/")
         def index():
-            return render_template("index.html", titles=list(self.agents.keys()))
+            return render_template("index_for_various.html", titles=list(self.agents.keys()))
 
         @self.app.route('/send/<user_id>', methods=['POST'])
         def send(user_id):
