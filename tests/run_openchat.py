@@ -24,5 +24,5 @@ if __name__ == '__main__':
     'wizard_of_wikipedia.end2end_generator'
     '''
     #OpenChat(model="blender.small", device="cpu", environment='webserver')
-    OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'], device="cpu", environment='webserver')
+    OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'], device="gpu", environment='webserver')
     #OpenChat(model="dialogpt.small", device="cpu")
