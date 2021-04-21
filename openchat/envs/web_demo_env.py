@@ -1,5 +1,4 @@
 import random
-import torch
 import base64
 
 from flask import Flask, render_template, request, jsonify
@@ -49,7 +48,7 @@ class WebServerEnvironment(BaseEnvironment):
                             # 0 = user_id
                             # 1 = bot_id
                             # 2 = user_message
-                            # 4 = topic
+                            # 3 = topic
                             requests["output"] = generate(requests['input'][0],
                                                           requests['input'][1],
                                                           requests['input'][2],
