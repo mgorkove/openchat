@@ -18,4 +18,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["python", "demo/start_demo.py"]
+CMD ["python", "tests/run_openchat.py"]
