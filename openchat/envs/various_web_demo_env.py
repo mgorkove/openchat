@@ -124,7 +124,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         @self.app.route("/")
         def index():
-            return render_template("index.html", title=list(self.agents.keys()))
+            return render_template("index.html", titles=list(self.agents.keys()))
 
         @self.app.route('/send/<user_id>', methods=['POST'])
         def send(user_id):
