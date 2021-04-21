@@ -25,6 +25,7 @@ if __name__ == '__main__':
     'wizard_of_wikipedia.end2end_generator'
     '''
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(device)
 
     #OpenChat(model="blender.small", device="cpu", environment='webserver')
     OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'], device=device, environment='webserver')
