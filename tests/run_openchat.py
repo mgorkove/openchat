@@ -3,7 +3,7 @@ from openchat import OpenChat
 if __name__ == '__main__':
     '''
     Model list
-    'blender.sall', 'blender.medium', 'blender.large', 'blender.xlarge', 'blender.xxlarge', 
+    'blender.small', 'blender.medium', 'blender.large', 'blender.xlarge', 'blender.xxlarge', 
     'dialogpt.small', 'dialogpt.medium', 'dialogpt.large', 
     'gptneo.small', 'gptneo.medium', 'gptneo.large', 'gptneo.xlarge', 
     'dodecathlon.all_tasks_mt', 'dodecathlon.convai2', 'dodecathlon.wizard_of_wikipedia', 
@@ -19,5 +19,5 @@ if __name__ == '__main__':
     'unlikelihood.eli5.context_and_label', 'unlikelihood.eli5.context', 'unlikelihood.eli5.label', 
     'wizard_of_wikipedia.end2end_generator'
     '''
-    OpenChat(model="gptneo.medium", device="cpu", environment='webserver')
+    OpenChat(model="blender.medium", device="cpu", environment='webserver')
     #OpenChat(model="dialogpt.small", device="cpu")
