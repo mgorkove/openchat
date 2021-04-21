@@ -24,7 +24,7 @@ if __name__ == '__main__':
     'unlikelihood.eli5.context_and_label', 'unlikelihood.eli5.context', 'unlikelihood.eli5.label', 
     'wizard_of_wikipedia.end2end_generator'
     '''
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     #OpenChat(model="blender.small", device="cpu", environment='webserver')
     OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'], device=device, environment='webserver')
