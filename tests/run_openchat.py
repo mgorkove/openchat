@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from openchat import OpenChat
 
 if __name__ == '__main__':
@@ -19,5 +23,5 @@ if __name__ == '__main__':
     'unlikelihood.eli5.context_and_label', 'unlikelihood.eli5.context', 'unlikelihood.eli5.label', 
     'wizard_of_wikipedia.end2end_generator'
     '''
-    OpenChat(model="blender.medium", device="cpu", environment='webserver')
+    OpenChat(model="blender.small", device="cpu", environment='webserver')
     #OpenChat(model="dialogpt.small", device="cpu")
