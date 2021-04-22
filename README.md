@@ -1,4 +1,8 @@
 # OpenChat: Easy to use opensource chatting framework via neural networks
+
+[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/fpem123/openchat)
+
+
 ```
    ____   ____   ______ _   __   ______ __  __ ___   ______
   / __ \ / __ \ / ____// | / /  / ____// / / //   | /_  __/
@@ -9,6 +13,36 @@
 - OpenChat is easy to use opensource chatting framework.
 - OpenChat supports 40+ dialogue model based on neural networks.
 - You can talk with AI with **only one line of code.**
+
+<br><br>
+
+## Try it out
+
+### With CLI
+
+* Input
+
+※ You can change the "curl_user" of the url to any name you want.
+
+text: Hey, nice to meet you bro!
+
+    curl -X POST "https://main-openchat-fpem123.endpoint.ainize.ai/send/curl_user" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "text=Hey, nice to meet you bro!"
+
+
+* Output
+
+
+    {
+      "output": " You as well. I hope you have a great day. I'm off to work now."
+    }
+
+### With Demo
+
+Demo page: [End-point](https://main-openchat-fpem123.endpoint.ainize.ai/)
+
+### With Swagger
+
+API page: [In Ainize](https://ainize.ai/fpem123/openchat?branch=main)
 
 <br><br>
 
