@@ -9,7 +9,7 @@ from openchat.agents.wow import WizardOfWikipediaGenerationAgent
 from openchat.envs.interactive import InteractiveEnvironment
 from openchat.envs.web_demo_env import WebServerEnvironment
 from openchat.envs.various_web_demo_env import VariousWebServerEnvironment
-from openchat.utils.terminal_utils import draw_openchat
+from openchat.utils.terminal_utils import draw_openchat, cprint
 
 
 class OpenChats(object):
@@ -31,7 +31,7 @@ class OpenChats(object):
                             device=device,
                             maxlen=maxlen,
                             ))
-            print(f"{model} is done!")
+            cprint(f"{model} is done!")
 
         print(device)
 
