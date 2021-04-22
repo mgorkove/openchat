@@ -31,6 +31,7 @@ class OpenChats(object):
                             device=device,
                             maxlen=maxlen,
                             ))
+            print(f"{model} is done!")
 
         print(device)
 
