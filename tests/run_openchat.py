@@ -28,6 +28,6 @@ if __name__ == '__main__':
     print(device)
 
     #OpenChat(model="blender.small", device="cpu", environment='webserver')
-    OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'], device=device, environment='webserver')
+    OpenChats(models=["blender.small", 'dialogpt.medium', 'gptneo.medium'], device=device, environment='webserver')
     #OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'], device="cpu", environment='webserver')
     #OpenChat(model="dialogpt.small", device="cpu")
