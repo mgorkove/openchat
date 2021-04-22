@@ -26,7 +26,7 @@ if __name__ == '__main__':
     '''
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-    OpenChats(models=["blender.medium", 'dialogpt.medium', 'gptneo.medium'],
+    OpenChats(models=["blender.small", 'dialogpt.small', 'gptneo.small'],
               device=device,
               environment='webserver',
               method="top_k",
