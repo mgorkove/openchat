@@ -32,6 +32,8 @@ class OpenChats(object):
                             maxlen=maxlen,
                             ))
 
+        print(device)
+
         self.environment = self.check_environment(environment)
         self.environment = self.create_environment_by_name(environment)
         self.environment.start(self.agents, **kwargs)

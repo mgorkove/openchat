@@ -165,7 +165,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 elif text == ".exit":
                     self.remove_user_in_histories(user_id)
 
-                    return "Good bye sir."
+                    return "Goodbye, friend."
 
                 else:
                     args = [user_id, bot_id, text, topic, agent]
