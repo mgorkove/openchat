@@ -21,6 +21,7 @@ class BaseEnvironment(ABC):
 
     def __init__(self):
         self.histories = {}
+        self.max_hold_text = 10
 
     def clear_histories(self, user_id):
         self.histories[user_id] = {
@@ -37,8 +38,14 @@ class BaseEnvironment(ABC):
     def add_user_message(self, user_id, text):
         self.histories[user_id]["user_message"].append(text)
 
+        if len(self.histories[user_id]["user_message"]) > self.max_hold_text:
+            self.histories[user_id]["user_message"].pop(0)
+
     def add_bot_message(self, user_id, text):
         self.histories[user_id]["bot_message"].append(text)
+
+        if len(self.histories[user_id]["bot_message"]) > self.max_hold_text:
+            self.histories[user_id]["bot_message"].pop(0)
 
     def make_model_input(self, user_id, user_input, agent):
         prefix = self.histories[user_id]["prefix"]

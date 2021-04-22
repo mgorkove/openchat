@@ -1,5 +1,6 @@
 import random
 import base64
+from collections import OrderedDict
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
@@ -26,8 +27,9 @@ class VariousWebServerEnvironment(BaseEnvironment):
         self.CHECK_INTERVAL = 0.1
         self.app = Flask(__name__)
         self.requests_queue = Queue()
-        self.users = []
+        self.users = OrderedDict()
         self.agents = {}    # key=agent name, value=agent obj
+        self.max_hold_user = 50
         CORS(self.app)
 
     def start(self, agents: list, **kwargs):
@@ -69,40 +71,45 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         # generate bot's message
         def generate(user_id, bot_id, user_message, topic, agent):
-            # get agent obj
-            agent = self.agents[agent]
-
             # add new user
             if user_id not in self.users:
                 self.clear_histories(user_id)
-                self.users.append(user_id)
+                self.users[user_id] = [topic, agent]
 
-            # max hold 10 user for memory
-            if len(self.users) > 10:
-                self.users.pop(0)
+            # get agent obj
+            agent_obj = self.agents[agent]
+
+            # max hold 50 user for memory
+            if len(self.users) > self.max_hold_user:
+                old_user = self.users.popitem(last=False)[0]
+                self.remove_user_in_histories(old_user)
 
             if self.is_empty(user_id):
-                self.pre_dialog_for_special_tasks(agent, user_id, bot_id, topic)
+                self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
 
-            if isinstance(agent, WizardOfWikipediaAgent):
-                user_message = agent.retrieve_knowledge(user_message)
+            # When the agent or topic is changed, init again
+            if topic != self.users[user_id][0] or agent != self.users[user_id][1]:
+                self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
 
-            if isinstance(agent, PromptAgent):
+            if isinstance(agent_obj, WizardOfWikipediaAgent):
+                user_message = agent_obj.retrieve_knowledge(user_message)
+
+            if isinstance(agent_obj, PromptAgent):
                 user_message = f"{user_id}: {user_message}</s> <s>{bot_id}:"
 
-            if isinstance(agent, SingleTurn):
+            if isinstance(agent_obj, SingleTurn):
                 model_input = user_message
             else:
                 model_input = self.make_model_input(
                     user_id,
                     user_message,
-                    agent,
+                    agent_obj,
                 )
 
             self.add_user_message(user_id, user_message)
 
-            if isinstance(agent, PromptAgent):
-                bot_message = agent.predict(
+            if isinstance(agent_obj, PromptAgent):
+                bot_message = agent_obj.predict(
                     model_input,
                     person_1=user_id,
                     person_2=bot_id,
@@ -110,7 +117,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 )["output"]
 
             else:
-                bot_message = agent.predict(model_input, **kwargs)["output"]
+                bot_message = agent_obj.predict(model_input, **kwargs)["output"]
 
             self.add_bot_message(user_id, bot_message)
 
@@ -154,6 +161,11 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     self.clear_histories(user_id)
 
                     return "Histories cleared."
+
+                elif text == ".exit":
+                    self.remove_user_in_histories(user_id)
+
+                    return "Good bye sir."
 
                 else:
                     args = [user_id, bot_id, text, topic, agent]
