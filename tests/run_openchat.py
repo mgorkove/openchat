@@ -31,5 +31,6 @@ if __name__ == '__main__':
               environment='webserver',
               method="top_k",
               top_k=25,
+              top_p=0.85,
               no_repeat_ngram_size=3,
               )
