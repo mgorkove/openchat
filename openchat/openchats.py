@@ -8,30 +8,36 @@ from openchat.agents.unlikelihood import UnlikelihoodAgent
 from openchat.agents.wow import WizardOfWikipediaGenerationAgent
 from openchat.envs.interactive import InteractiveEnvironment
 from openchat.envs.web_demo_env import WebServerEnvironment
-from openchat.utils.terminal_utils import draw_openchat
+from openchat.envs.various_web_demo_env import VariousWebServerEnvironment
+from openchat.utils.terminal_utils import draw_openchat, cprint
 
 
-class OpenChat(object):
+class OpenChats(object):
 
     def __init__(
         self,
-        model,
+        models,
         device,
         maxlen=-1,
         environment="interactive",
         **kwargs,
     ):
         draw_openchat()
-        self.agent = self.check_agent(model)
-        self.agent = self.create_agent_by_name(
-            name=self.agent,
-            device=device,
-            maxlen=maxlen,
-        )
+        self.agents = []
+
+        for model in models:
+            self.agents.append(self.create_agent_by_name(
+                            name=self.check_agent(model),
+                            device=device,
+                            maxlen=maxlen,
+                            ))
+            cprint(f"{model} is done!")
+
+        cprint(device)
 
         self.environment = self.check_environment(environment)
         self.environment = self.create_environment_by_name(environment)
-        self.environment.start(self.agent, **kwargs)
+        self.environment.start(self.agents, **kwargs)
 
     def check_agent(self, model) -> str:
         model = model.lower()
@@ -55,7 +61,7 @@ class OpenChat(object):
         if name == "interactive":
             return InteractiveEnvironment()
         elif name == "webserver":
-            return WebServerEnvironment()
+            return VariousWebServerEnvironment()
         elif name == "facebook":
             raise NotImplemented
         elif name == "kakaotalk":

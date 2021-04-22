@@ -10,11 +10,12 @@ RUN pip install transformers \
     flask \
     Flask-Cors \
     waitress \
-    torch
+    torch \
+    parlai
 
 WORKDIR /app
 COPY . .
 
 EXPOSE 8080
 
-CMD ["python", "demo/start_demo.py"]
+CMD ["python", "tests/run_openchat.py"]
