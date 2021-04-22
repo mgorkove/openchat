@@ -16,7 +16,7 @@
 
     <!-- css -->
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">
-    <link href="{{ url_for('static', filename='css/main_v5.css') }}" rel="stylesheet" id="main-css">
+    <link href="{{ url_for('static', filename='css/main_v6.css') }}" rel="stylesheet" id="main-css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/btn_style_v2.css') }}">
 
     <title>OPEN CHAT</title>
@@ -32,13 +32,24 @@
             <a>Open API : </a> <a href="https://ainize.ai/fpem123/openchat?branch=main" target="_blank">fpem123/openchat</a><br>
         </div>
 
+        <br>
+
         <div class="user_id">
-            <label>What's your nickname?&nbsp;&nbsp;</label>
-            <input id="userId" class="id_input"><br>
-            <label>What's bot name?&nbsp;&nbsp;</label>
-            <input id="botId" class="id_input"><br>
-            <label>What we talking about?&nbsp;&nbsp;</label>
-            <input id="topic" class="id_input"><br>
+            <table border="0" align="center">
+                <th>
+                    <label>Input chatting infomation!</label>
+                </th>
+                <tr>
+                    <td><input id="userId" class="id_input" placeholder="What's your nickname?"><br></td>
+                </tr>
+                <tr>
+                    <td><input id="botId" class="id_input" placeholder="What's bot name?"><br></td>
+                </tr>
+                    <td><input id="topic" class="id_input" placeholder="What we talking about?"><br></td>
+                <tr>
+
+                </tr>
+            </table>
             <b><label id="warning" style="color:red;"></label></b>
         </div>
 
