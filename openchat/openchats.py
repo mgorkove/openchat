@@ -33,7 +33,7 @@ class OpenChats(object):
                             ))
             cprint(f"{model} is done!")
 
-        print(device)
+        cprint(device)
 
         self.environment = self.check_environment(environment)
         self.environment = self.create_environment_by_name(environment)
