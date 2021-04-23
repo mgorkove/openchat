@@ -10,7 +10,6 @@ RUN pip install transformers \
     flask \
     Flask-Cors \
     waitress \
-    torch \
     parlai
 
 WORKDIR /app
