@@ -133,6 +133,19 @@ class VariousWebServerEnvironment(BaseEnvironment):
         def index():
             return render_template("index_for_various.html", titles=list(self.agents.keys()))
 
+        # Get base64 encoded user id
+        @self.app.route("/base64", methods=['POST'])
+        def get_base64():
+            try:
+                user_id = request.form['user_id']
+                user_id = user_id.encode("UTF-8")
+                user_id = base64.b64encode(user_id).decode("UTF-8")
+
+                return user_id
+            except:
+                return "error"
+
+
         @self.app.route('/send/<user_id>', methods=['POST'])
         def send(user_id):
 
