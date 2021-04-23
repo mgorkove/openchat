@@ -27,9 +27,9 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
         super().__init__(
             name=model,
             suffix=" ",
-            device=device,
+            device=torch.device(device),
             maxlen=maxlen,
-            model=AutoModelForCausalLM.from_pretrained(name).to(device).eval(),
+            model=AutoModelForCausalLM.from_pretrained(name).to(torch.device(device)).eval(),
             tokenizer=tokenizer,
         )
 

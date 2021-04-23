@@ -14,9 +14,9 @@ class DialoGPTAgent(HuggingfaceAgent, DecoderLM):
         super().__init__(
             name=model,
             suffix="<|endoftext|>",
-            device=device,
+            device=torch.device(device),
             maxlen=maxlen,
-            model=GPT2LMHeadModel.from_pretrained(name).to(device).eval(),
+            model=GPT2LMHeadModel.from_pretrained(name).to(torch.device(device)).eval(),
             tokenizer=tokenizer,
         )
 

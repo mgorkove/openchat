@@ -29,7 +29,7 @@ class OpenChats(object):
         for model in models:
             self.agents.append(self.create_agent_by_name(
                             name=self.check_agent(model),
-                            device=torch.device(device),
+                            device=device,
                             maxlen=maxlen,
                             ))
             cprint(f"{model} is done!")

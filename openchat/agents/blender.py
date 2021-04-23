@@ -30,7 +30,7 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         super().__init__(
             name=model,
             suffix="\n",
-            device=device,
+            device=torch.device(device),
             maxlen=maxlen,
             model=create_agent_from_opt_file(option),
         )
