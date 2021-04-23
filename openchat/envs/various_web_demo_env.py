@@ -155,9 +155,12 @@ class VariousWebServerEnvironment(BaseEnvironment):
             try:
                 text: str
 
-                user_id = user_id.encode("UTF-8")
-                user_id = base64.b64decode(user_id)
-                user_id = user_id.decode("UTF-8")
+                try:
+                    user_id_64 = user_id.encode("UTF-8")
+                    user_id_64 = base64.b64decode(user_id_64)
+                    user_id = user_id_64.decode("UTF-8")
+                except:
+                    user_id = user_id
 
                 text = request.form['text']
                 text = text.replace('<', '')
