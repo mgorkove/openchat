@@ -30,6 +30,9 @@ if __name__ == '__main__':
     print(torch.version.cuda)
     print(device)
 
+    if device != 'cuda':
+        exit(-1)
+
     OpenChats(models=["blender.small", 'dialogpt.medium', 'gptneo.large'],
               device=device,
               environment='webserver',
