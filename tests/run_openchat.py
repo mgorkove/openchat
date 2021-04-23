@@ -25,9 +25,13 @@ if __name__ == '__main__':
     'wizard_of_wikipedia.end2end_generator'
     '''
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(torch.cuda.device_count())
+    print(torch.cuda.is_available())
+    print(torch.version.cuda)
+    print(device)
 
     OpenChats(models=["blender.small", 'dialogpt.medium', 'gptneo.large'],
-              device='cuda',
+              device=device,
               environment='webserver',
               method="top_k",
               top_k=25,
