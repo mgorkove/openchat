@@ -10,6 +10,7 @@ from openchat.envs.interactive import InteractiveEnvironment
 from openchat.envs.web_demo_env import WebServerEnvironment
 from openchat.envs.various_web_demo_env import VariousWebServerEnvironment
 from openchat.utils.terminal_utils import draw_openchat, cprint
+import torch
 
 
 class OpenChats(object):
@@ -28,7 +29,7 @@ class OpenChats(object):
         for model in models:
             self.agents.append(self.create_agent_by_name(
                             name=self.check_agent(model),
-                            device=device,
+                            device=torch.device(device),
                             maxlen=maxlen,
                             ))
             cprint(f"{model} is done!")

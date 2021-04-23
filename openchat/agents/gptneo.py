@@ -29,7 +29,7 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
             suffix=" ",
             device=device,
             maxlen=maxlen,
-            model=AutoModelForCausalLM.from_pretrained(name).to(torch.device(device)).eval(),
+            model=AutoModelForCausalLM.from_pretrained(name).to(device).eval(),
             tokenizer=tokenizer,
         )
 

@@ -1,6 +1,6 @@
 from parlai.core.agents import create_agent_from_model_file, add_datapath_and_model_args
 from parlai.core.build_data import modelzoo_path
-
+import torch
 from openchat.base import WizardOfWikipediaAgent, Seq2SeqLM
 
 

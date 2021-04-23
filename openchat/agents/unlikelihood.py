@@ -1,6 +1,7 @@
 import importlib
 from parlai.core.agents import add_datapath_and_model_args
 from parlai.core.build_data import modelzoo_path
+import torch
 
 from openchat.utils import (
     inherit,

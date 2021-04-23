@@ -9,6 +9,7 @@ from openchat.agents.wow import WizardOfWikipediaGenerationAgent
 from openchat.envs.interactive import InteractiveEnvironment
 from openchat.envs.web_demo_env import WebServerEnvironment
 from openchat.utils.terminal_utils import draw_openchat
+import torch
 
 
 class OpenChat(object):
@@ -25,7 +26,7 @@ class OpenChat(object):
         self.agent = self.check_agent(model)
         self.agent = self.create_agent_by_name(
             name=self.agent,
-            device=device,
+            device=torch.device(device),
             maxlen=maxlen,
         )
 
