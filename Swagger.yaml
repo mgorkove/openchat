@@ -71,14 +71,14 @@ paths:
               bot_id: Mr.Bot
               text: Hey, What are you going to do?
               topic: weekend
-              agent: dialogpt.medium
+              agent: DIALOGPT.MEDIUM
 
 
           curl example
 
             You can change the "S2lt" of the url to any name you want.
 
-              curl -X POST "https://main-openchat-fpem123.endpoint.ainize.ai/send/S2lt" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "bot_id=Mr.Bot" -F "text=Hey, What are you going to do?" -F "topic=weekend" -F "agent=dialogpt.medium"
+              curl -X POST "https://main-openchat-fpem123.endpoint.ainize.ai/send/S2lt" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "bot_id=Mr.Bot" -F "text=Hey, What are you going to do?" -F "topic=weekend" -F "agent=DIALOGPT.MEDIUM"
 
           --
         content:
