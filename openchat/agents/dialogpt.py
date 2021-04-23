@@ -1,6 +1,6 @@
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from openchat.base import HuggingfaceAgent, DecoderLM
-
+import torch
 
 class DialoGPTAgent(HuggingfaceAgent, DecoderLM):
 
@@ -16,7 +16,7 @@ class DialoGPTAgent(HuggingfaceAgent, DecoderLM):
             suffix="<|endoftext|>",
             device=device,
             maxlen=maxlen,
-            model=GPT2LMHeadModel.from_pretrained(name).to(device).eval(),
+            model=GPT2LMHeadModel.from_pretrained(name).to(torch.device(device)).eval(),
             tokenizer=tokenizer,
         )
 
