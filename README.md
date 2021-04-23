@@ -16,24 +16,49 @@
 
 <br><br>
 
+## Input & Output Information
+
+### Post parameter
+
+    bot_id: This is the name of the bot.
+    
+    text: Hey, What are you going to do?
+    
+    topic: This is the topic of the chat.
+    
+    agent: The model type of the Bot you want to chat with. ["BLENDER.SMALL", 'DIALOGPT.MEDIUM', 'GPTNEO.LARGE']
+
+### Output format
+
+    {"0": [AI's chatting - string]}  
+
+
 ## Try it out
 
 ### With CLI
 
 * Input
 
-※ You can change the "curl_user" of the url to any name you want.
+※ "S2lt" is the user ID to use when chatting.
 
-text: Hey, nice to meet you bro!
+※ You can change the "S2lt" of the url to any name you want.
 
-    curl -X POST "https://main-openchat-fpem123.endpoint.ainize.ai/send/curl_user" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "text=Hey, nice to meet you bro!"
 
+bot_id: Mr.Bot
+
+text: Hey, What are you going to do?
+
+topic: weekend
+
+agent: DIALOGPT.MEDIUM
+
+    curl -X POST "https://main-openchat-fpem123.endpoint.ainize.ai/send/S2lt" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "bot_id=Mr.Bot" -F "text=Hey, What are you going to do?" -F "topic=weekend" -F "agent=DIALOGPT.MEDIUM"
 
 * Output
 
 
     {
-      "output": " You as well. I hope you have a great day. I'm off to work now."
+      "output": "I don't know."
     }
 
 ### With Demo
