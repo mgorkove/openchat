@@ -141,6 +141,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
             try:
                 text: str
+
                 user_id = user_id.encode("UTF-8")
                 user_id = base64.b64decode(user_id)
                 user_id = user_id.decode("UTF-8")
