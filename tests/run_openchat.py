@@ -29,12 +29,12 @@ if __name__ == '__main__':
     print(torch.cuda.is_available())
     print(torch.version.cuda)
     print(device)
-
+    '''
     if device != 'cuda':
         exit(-1)
-
-    OpenChats(models=["blender.small", "blender.medium", 'dialogpt.small',
-                      'dialogpt.medium', 'gptneo.small', 'gptneo.large'],
+    '''
+    OpenChats(models=["blender.small", 'dialogpt.small',
+                      'dialogpt.medium', 'gptneo.small',],
               device=device,
               environment='webserver',
               method="top_k",

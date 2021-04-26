@@ -1,7 +1,7 @@
 from parlai.core.agents import add_datapath_and_model_args, create_agent_from_opt_file
 from parlai.core.build_data import modelzoo_path
 from openchat.base import ConvAI2Agent, Seq2SeqLM
-import torch
+
 
 class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
 
@@ -30,7 +30,7 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         super().__init__(
             name=model,
             suffix="\n",
-            device=torch.device(device),
+            device=device,
             maxlen=maxlen,
             model=create_agent_from_opt_file(option),
         )

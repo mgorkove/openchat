@@ -1,4 +1,3 @@
-import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from openchat.base import DecoderLM
 from openchat.base.agents.prompt import PromptAgent
@@ -27,7 +26,7 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
         super().__init__(
             name=model,
             suffix=" ",
-            device=torch.device(device),
+            device=device,
             maxlen=maxlen,
             model=AutoModelForCausalLM.from_pretrained(name).to(torch.device(device)).eval(),
             tokenizer=tokenizer,

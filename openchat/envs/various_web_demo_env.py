@@ -204,8 +204,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 traceback.print_exc()
                 return jsonify({'message': e}), 500
 
-        from waitress import serve
-        serve(self.app, port=80, host='0.0.0.0')
+        self.app.run(host='0.0.0.0', port=80)
 
     def pre_dialog_for_special_tasks(self, agent, user_id, bot_id, topic):
         if isinstance(agent, ConvAI2Agent):

@@ -10,7 +10,6 @@ from openchat.base import (
     WizardOfWikipediaAgent,
     Seq2SeqLM,
 )
-import torch
 
 
 class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):

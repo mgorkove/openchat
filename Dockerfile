@@ -9,7 +9,6 @@ RUN pip install --upgrade pip
 RUN pip install transformers \
     flask \
     Flask-Cors \
-    waitress \
     parlai
 
 WORKDIR /app
