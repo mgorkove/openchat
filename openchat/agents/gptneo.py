@@ -37,7 +37,7 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
     def available_models():
         return [
             "gptneo.small",
-            "gptneo.medium",
+            #"gptneo.medium", # medium model is gone
             "gptneo.large",
             "gptneo.xlarge",
         ]
