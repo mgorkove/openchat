@@ -97,7 +97,8 @@ paths:
                   description: "This is the topic of the chat."
                 agent:
                   type: string
-                  enum: ["BLENDER.SMALL", 'DIALOGPT.MEDIUM', 'GPTNEO.LARGE']
+                  enum: [ "blender.small", "blender.medium", 'dialogpt.small',
+                          'dialogpt.medium', 'gptneo.small', 'gptneo.large']
                   description: "The model type of the Bot you want to chat with."
               required:
                 - text

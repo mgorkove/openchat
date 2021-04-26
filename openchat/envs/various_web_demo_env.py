@@ -70,13 +70,14 @@ class VariousWebServerEnvironment(BaseEnvironment):
         Thread(target=handle_requests_by_batch).start()
 
         # generate bot's message
-        def generate(user_id, bot_id, user_message, topic, agent):
+        def generate(user_id, bot_id, user_message, topic, agent: str):
             # add new user
             if user_id not in self.users:
                 self.clear_histories(user_id)
                 self.users[user_id] = [topic, agent]
 
             # get agent obj
+            agent = agent.upper()
             agent_obj = self.agents[agent]
 
             # max hold 50 user for memory

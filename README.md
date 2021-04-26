@@ -26,7 +26,9 @@
     
     topic: This is the topic of the chat.
     
-    agent: The model type of the Bot you want to chat with. ["BLENDER.SMALL", 'DIALOGPT.MEDIUM', 'GPTNEO.LARGE']
+    agent: The model type of the Bot you want to chat with. 
+          ["blender.small", "blender.medium", 'dialogpt.small', 
+           'dialogpt.medium', 'gptneo.small', 'gptneo.large']
 
 ### Output format
 
