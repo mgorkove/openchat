@@ -37,7 +37,7 @@ if __name__ == '__main__':
                       'dialogpt.small',
                       'dialogpt.medium',
                       'gptneo.small',
-                      #'gptneo.large',
+                      'gptneo.large',
                       ],
               device=device,
               environment='webserver',
