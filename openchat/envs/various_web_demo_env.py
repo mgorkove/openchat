@@ -99,7 +99,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     user_message = agent_obj.retrieve_knowledge(user_message)
 
                 if isinstance(agent_obj, PromptAgent):
-                    user_message = f"{user_id}: {user_message}</s> <s>{bot_id}:"
+                    user_message = f"{user_id}: {user_message} {bot_id}:"
 
                 if isinstance(agent_obj, SingleTurn):
                     model_input = user_message
