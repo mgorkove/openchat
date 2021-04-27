@@ -33,8 +33,12 @@ if __name__ == '__main__':
     if device != 'cuda':
         exit(-1)
     '''
-    OpenChats(models=["blender.small", 'dialogpt.small',
-                      'dialogpt.medium', 'gptneo.small', 'gptneo.large',],
+    OpenChats(models=["blender.small",
+                      'dialogpt.small',
+                      'dialogpt.medium',
+                      'gptneo.small',
+                      #'gptneo.large',
+                      ],
               device=device,
               environment='webserver',
               method="top_k",

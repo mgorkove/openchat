@@ -71,58 +71,66 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         # generate bot's message
         def generate(user_id, bot_id, user_message, topic, agent: str):
-            # add new user
-            if user_id not in self.users:
-                self.clear_histories(user_id)
-                self.users[user_id] = [topic, agent]
+            try:
+                # add new user
+                if user_id not in self.users:
+                    self.clear_histories(user_id)
+                    self.users[user_id] = [topic, agent]
 
-            # get agent obj
-            agent = agent.upper()
-            agent_obj = self.agents[agent]
+                # get agent obj
+                agent = agent.upper()
+                agent_obj = self.agents[agent]
 
-            # max hold 50 user for memory
-            if len(self.users) > self.max_hold_user:
-                old_user = self.users.popitem(last=False)[0]
-                self.remove_user_in_histories(old_user)
+                # max hold 50 user for memory
+                if len(self.users) > self.max_hold_user:
+                    old_user = self.users.popitem(last=False)[0]
+                    self.remove_user_in_histories(old_user)
 
-            if self.is_empty(user_id):
-                self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
+                if self.is_empty(user_id):
+                    self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
 
-            # When the agent or topic is changed, init again
-            if topic != self.users[user_id][0] or agent != self.users[user_id][1]:
-                self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
+                # When the agent or topic is changed, init again
+                if topic != self.users[user_id][0] or agent != self.users[user_id][1]:
+                    self.clear_histories(user_id)
+                    self.users[user_id] = [topic, agent]
+                    self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
 
-            if isinstance(agent_obj, WizardOfWikipediaAgent):
-                user_message = agent_obj.retrieve_knowledge(user_message)
+                if isinstance(agent_obj, WizardOfWikipediaAgent):
+                    user_message = agent_obj.retrieve_knowledge(user_message)
 
-            if isinstance(agent_obj, PromptAgent):
-                user_message = f"{user_id}: {user_message}</s> <s>{bot_id}:"
+                if isinstance(agent_obj, PromptAgent):
+                    user_message = f"{user_id}: {user_message}</s> <s>{bot_id}:"
 
-            if isinstance(agent_obj, SingleTurn):
-                model_input = user_message
-            else:
-                model_input = self.make_model_input(
-                    user_id,
-                    user_message,
-                    agent_obj,
-                )
+                if isinstance(agent_obj, SingleTurn):
+                    model_input = user_message
+                else:
+                    model_input = self.make_model_input(
+                        user_id,
+                        user_message,
+                        agent_obj,
+                    )
 
-            self.add_user_message(user_id, user_message)
+                self.add_user_message(user_id, user_message)
 
-            if isinstance(agent_obj, PromptAgent):
-                bot_message = agent_obj.predict(
-                    model_input,
-                    person_1=user_id,
-                    person_2=bot_id,
-                    **kwargs,
-                )["output"]
+                if isinstance(agent_obj, PromptAgent):
+                    bot_message = agent_obj.predict(
+                        model_input,
+                        person_1=user_id,
+                        person_2=bot_id,
+                        **kwargs,
+                    )["output"]
 
-            else:
-                bot_message = agent_obj.predict(model_input, **kwargs)["output"]
+                else:
+                    bot_message = agent_obj.predict(model_input, **kwargs)["output"]
 
-            self.add_bot_message(user_id, bot_message)
+                self.add_bot_message(user_id, bot_message)
 
-            return bot_message
+                return bot_message
+
+            except:
+                traceback.print_exc()
+
+                return "Error :("
 
         ##
         # Sever health checking page.
@@ -146,12 +154,11 @@ class VariousWebServerEnvironment(BaseEnvironment):
             except:
                 return "error"
 
-
         @self.app.route('/send/<user_id>', methods=['POST'])
         def send(user_id):
 
             if self.requests_queue.qsize() > self.BATCH_SIZE:
-                return jsonify({'message': 'Too Many Requests'}), 429
+                return {'message': 'Too Many Requests'}, 429
 
             try:
                 text: str
@@ -172,7 +179,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 agent = request.form['agent']   # agent's name
 
             except Exception as e:
-                return jsonify({'message': e}), 500
+                return {"output": 'Bad request'}, 500
 
             try:
                 if text == ".clear":
@@ -202,7 +209,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
             except Exception as e:
                 traceback.print_exc()
-                return jsonify({'message': e}), 500
+                return {'message': e}, 500
 
         self.app.run(host='0.0.0.0', port=80)
 
