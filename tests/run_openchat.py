@@ -24,13 +24,13 @@ if __name__ == '__main__':
     'unlikelihood.eli5.context_and_label', 'unlikelihood.eli5.context', 'unlikelihood.eli5.label', 
     'wizard_of_wikipedia.end2end_generator'
     '''
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = "cuda" if torch.cuda.is_available() else 'cpu'
     print(torch.cuda.device_count())
     print(torch.cuda.is_available())
     print(torch.version.cuda)
     print(device)
 
-    if device != 'cuda':
+    if device != "cuda":
         exit(-1)
 
     OpenChats(models=['blender.small',
