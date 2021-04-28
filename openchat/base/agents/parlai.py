@@ -81,6 +81,8 @@ class ParlaiGenerationAgent(ParlaiAgent):
         assert method in ["greedy", "beam", "top_k", "nucleus"], \
             "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
 
+        self.device = self.model.device
+
         self.model.opt["inference"] = method.replace("_", "")
         self.model.opt["beam_size"] = num_beams
         self.model.opt["topk"] = top_k
