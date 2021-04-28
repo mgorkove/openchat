@@ -185,12 +185,13 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 if text == ".clear":
                     self.clear_histories(user_id)
 
-                    return "Histories cleared."
+                    return {"output": "Histories cleared."}
 
                 elif text == ".exit":
                     self.remove_user_in_histories(user_id)
+                    del self.users[user_id]
 
-                    return "Goodbye, friend."
+                    return {"output": "Goodbye, friend."}
 
                 else:
                     args = [user_id, bot_id, text, topic, agent]
@@ -209,7 +210,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
             except Exception as e:
                 traceback.print_exc()
-                return {'message': e}, 500
+                return {'output': 'Sorry, there was an error.'}, 500
 
         self.app.run(host='0.0.0.0', port=80)
 
