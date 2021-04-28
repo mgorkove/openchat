@@ -158,7 +158,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
         def send(user_id):
 
             if self.requests_queue.qsize() > self.BATCH_SIZE:
-                return {'message': 'Too Many Requests'}, 429
+                return {'output': 'Too Many Requests'}, 429
 
             try:
                 text: str
