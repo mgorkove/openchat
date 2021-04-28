@@ -91,6 +91,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
                 # When the agent or topic is changed, init again
                 if topic != self.users[user_id][0] or agent != self.users[user_id][1]:
+                    self.histories[user_id]["prefix"] = []
                     self.clear_histories(user_id)
                     self.users[user_id] = [topic, agent]
                     self.pre_dialog_for_special_tasks(agent_obj, user_id, bot_id, topic)
