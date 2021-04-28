@@ -80,6 +80,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 # get agent obj
                 agent = agent.upper()
                 agent_obj = self.agents[agent]
+                print(agent_obj.model.device)
 
                 # max hold 50 user for memory
                 if len(self.users) > self.max_hold_user:
@@ -213,7 +214,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 traceback.print_exc()
                 return {'output': 'Sorry, there was an error.'}, 500
 
-        self.app.run(host='0.0.0.0', port=80)
+        from waitress import serve
+        serve(self.app, host='0.0.0.0', port=80)
 
     def pre_dialog_for_special_tasks(self, agent, user_id, bot_id, topic):
         if isinstance(agent, ConvAI2Agent):

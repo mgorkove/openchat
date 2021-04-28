@@ -55,6 +55,6 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         datapath = option.get("datapath")
         option['model_file'] = modelzoo_path(datapath, name)
         option["override"] = {
-            "no_cuda": False,
+            "no_cuda": False if "cuda" in device else True,
         }
         return option
