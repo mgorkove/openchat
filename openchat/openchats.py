@@ -1,4 +1,5 @@
-from openchat.agents.blender import BlenderGenerationAgent
+#from openchat.agents.blender import BlenderGenerationAgent
+from openchat.agents.new_blender import NewBlenderAgent
 from openchat.agents.dialogpt import DialoGPTAgent
 from openchat.agents.dodecathlon import DodecathlonAgent
 from openchat.agents.gptneo import GPTNeoAgent
@@ -74,7 +75,8 @@ class OpenChats(object):
         agent_name = name.split(".")[0]
 
         if agent_name == "blender":
-            return BlenderGenerationAgent(name, device, maxlen)
+            #return BlenderGenerationAgent(name, device, maxlen)
+            return NewBlenderAgent(name, device, maxlen)
         elif agent_name == "gptneo":
             return GPTNeoAgent(name, device, maxlen)
         elif agent_name == "dialogpt":
@@ -100,7 +102,8 @@ class OpenChats(object):
     @staticmethod
     def available_models():
         agents = [
-            BlenderGenerationAgent,
+            #BlenderGenerationAgent,
+            NewBlenderAgent,
             DialoGPTAgent,
             GPTNeoAgent,
             DodecathlonAgent,
