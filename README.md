@@ -22,7 +22,7 @@
 
     bot_id: This is the name of the bot.
     
-    text: Hey, What are you going to do?
+    text: This is the chat to talk to the bot.
     
     topic: This is the topic of the chat.
     
