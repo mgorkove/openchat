@@ -80,7 +80,6 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 # get agent obj
                 agent = agent.upper()
                 agent_obj = self.agents[agent]
-                print(agent, agent_obj.model.device)
 
                 # max hold 50 user for memory
                 if len(self.users) > self.max_hold_user:
