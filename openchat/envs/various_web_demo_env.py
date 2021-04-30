@@ -1,7 +1,7 @@
 import random
 import base64
 from collections import OrderedDict
-
+import time
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from queue import Queue, Empty
@@ -72,6 +72,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
         # generate bot's message
         def generate(user_id, bot_id, user_message, topic, agent: str):
             try:
+                start = time.time()
+
                 # add new user
                 if user_id not in self.users:
                     self.clear_histories(user_id)
@@ -101,7 +103,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     user_message = agent_obj.retrieve_knowledge(user_message)
 
                 if isinstance(agent_obj, PromptAgent):
-                    user_message = f"{user_id}: {user_message} {bot_id}:"
+                    user_message = f"<name1>: {user_message}\n <name2>:"
 
                 if isinstance(agent_obj, SingleTurn):
                     model_input = user_message
@@ -120,13 +122,15 @@ class VariousWebServerEnvironment(BaseEnvironment):
                         person_1=user_id,
                         person_2=bot_id,
                         **kwargs,
-                    )["output"]
+                    )["output"].split('<name')[0]
+                    self.add_bot_message(user_id, bot_message)
+                    bot_message = bot_message.replace('<name1>', user_id).replace('<name2>', bot_id)
 
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
+                    self.add_bot_message(user_id, bot_message)
 
-                self.add_bot_message(user_id, bot_message)
-
+                print(time.time()-start)
                 return bot_message
 
             except:
@@ -215,7 +219,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 return {'output': 'Sorry, there was an error.'}, 500
 
         from waitress import serve
-        serve(self.app, host='0.0.0.0', port=80)
+        serve(self.app, host='0.0.0.0', port=8000)
 
     def pre_dialog_for_special_tasks(self, agent, user_id, bot_id, topic):
         if isinstance(agent, ConvAI2Agent):
@@ -230,11 +234,17 @@ class VariousWebServerEnvironment(BaseEnvironment):
     def pre_dialog_for_prompt(self, agent, user_id, bot_id, topic):
         agent.name = bot_id
 
+        '''
         story = f'{user_id} and {bot_id} are talking about {topic}.'
         story += f" {user_id} and {bot_id} start talking. "
         story += f"{user_id}: Hello {bot_id}. "
         story += f"{bot_id}: Hi {user_id}. "
-
+        '''
+        story = f'<name1> and <name2> are talking about {topic}.'
+        story += f" <name1> and <name2> start talking.\n"
+        story += f"<name1>: Hello <name2>.\n"
+        story += f"<name2>: Hi <name1>.\n"
+        
         agent.add_prompt(
             self.histories,
             user_id,

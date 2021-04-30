@@ -43,4 +43,4 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
 
     @staticmethod
     def default_maxlen():
-        return 256
+        return 64

@@ -1,5 +1,5 @@
 import torch
-
+import time
 from openchat.base import HuggingfaceAgent
 
 
@@ -29,6 +29,8 @@ class PromptAgent(HuggingfaceAgent):
         no_repeat_ngram_size=4,
         **kwargs,
     ):
+
+        start = time.time()
 
         input_ids = self.tokenizer(
             text,
@@ -69,7 +71,7 @@ class PromptAgent(HuggingfaceAgent):
 
         for escape in turn_escapes:
             generated_text = generated_text.replace(escape, "\n")
-
+        print(time.time()-start)
         return {
             "input": text,
             "output": generated_text.split("\n")[0].strip(),
