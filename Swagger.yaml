@@ -14,7 +14,7 @@ info:
     ---
     And you can use this in [demo page](https://main-openchat-fpem123.endpoint.ainize.ai/).
 
-    Origin Git repo >> [hyunwoongko/openchat](https://github.com/hyunwoongko/openchat)
+    Original Git repo >> [hyunwoongko/openchat](https://github.com/hyunwoongko/openchat)
 
 servers:
   - url: https://main-openchat-fpem123.endpoint.ainize.ai/
