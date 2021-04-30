@@ -214,8 +214,9 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 traceback.print_exc()
                 return {'output': 'Sorry, there was an error.'}, 500
 
-        from waitress import serve
-        serve(self.app, host='0.0.0.0', port=80)
+        #from waitress import serve
+        #serve(self.app, host='0.0.0.0', port=80)
+        self.app.run(host='0.0.0.0', port=80)
 
     def pre_dialog_for_special_tasks(self, agent, user_id, bot_id, topic):
         if isinstance(agent, ConvAI2Agent):
