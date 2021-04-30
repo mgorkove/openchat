@@ -1,7 +1,7 @@
 import random
 import base64
 from collections import OrderedDict
-import time
+
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from queue import Queue, Empty
@@ -33,7 +33,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
         CORS(self.app)
 
     def start(self, agents: list, **kwargs):
-        spliter = re.compile('<name[013456789]>:', re.I)
+        remove_token = re.compile('</?name[03456789]>', re.I)
 
         # parsing conformed model name and obj
         for agent_obj in agents:
@@ -74,8 +74,6 @@ class VariousWebServerEnvironment(BaseEnvironment):
         # generate bot's message
         def generate(user_id, bot_id, user_message, topic, agent: str):
             try:
-                start = time.time()
-
                 # add new user
                 if user_id not in self.users:
                     self.clear_histories(user_id)
@@ -108,7 +106,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
                 if isinstance(agent_obj, PromptAgent):
                     user_message.replace(user_id, '<name1>').replace(bot_id, '<name2>')
-                    user_message = f"<name1>: {user_message} <name2>:"
+                    user_message = f"<name1> : {user_message} <name2> :"
 
                 if isinstance(agent_obj, SingleTurn):
                     model_input = user_message
@@ -124,21 +122,21 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 if isinstance(agent_obj, PromptAgent):
                     bot_message = agent_obj.predict(
                         model_input,
-                        person_1=user_id,
-                        person_2=bot_id,
+                        person_1='<name1>',
+                        person_2='<name2>',
                         **kwargs,
                     )["output"]
-                    bot_message = spliter.split(bot_message)[0]
+
+                    bot_message = remove_token.sub("", bot_message)
 
                     self.add_bot_message(user_id, bot_message)
-                    bot_message = bot_message.replace('<name1>', user_id).replace('<name2>', bot_id)
-                    bot_message = bot_message.replace("<", "'").replace(">", "'")
 
+                    bot_message = bot_message.replace('<name1>', user_id).replace('<name2>', bot_id)
+                    bot_message = bot_message.replace('<', '').replace('>', '')
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
                     self.add_bot_message(user_id, bot_message)
 
-                print(time.time()-start)
                 return bot_message
 
             except:
@@ -229,8 +227,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         from waitress import serve
         #serve(self.app, host='0.0.0.0', port=80)
-        serve(self.app, host='0.0.0.0', port=8000)
-        #self.app.run(host='0.0.0.0', port=80)
+        #serve(self.app, host='0.0.0.0', port=8000)
+        self.app.run(host='0.0.0.0', port=8000)
 
 
     def pre_dialog_for_special_tasks(self, agent, user_id, bot_id, topic):
@@ -253,9 +251,9 @@ class VariousWebServerEnvironment(BaseEnvironment):
         story += f"{bot_id}: Hi {user_id}. "
         '''
         story = f'<name1> and <name2> are talking about {topic}.'
-        story += f" <name1> and <name2> start talking.\n"
-        story += f"<name1>: Hello <name2>. "
-        story += f"<name2>: Hi <name1>. "
+        story += f" <name1> and <name2> start talking. "
+        story += f"<name1> : Hello <name2>. "
+        story += f"<name2> : Hi <name1>. "
         
         agent.add_prompt(
             self.histories,
