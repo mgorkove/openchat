@@ -8,6 +8,7 @@ from queue import Queue, Empty
 from threading import Thread
 import time
 import traceback
+import re
 
 from openchat.base.envs.base import BaseEnvironment
 from openchat.base import (
@@ -17,7 +18,6 @@ from openchat.base import (
     SingleTurn,
     PromptAgent,
 )
-
 
 class VariousWebServerEnvironment(BaseEnvironment):
 
@@ -33,6 +33,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
         CORS(self.app)
 
     def start(self, agents: list, **kwargs):
+        spliter = re.compile('<name[013456789]>:', re.I)
+
         # parsing conformed model name and obj
         for agent_obj in agents:
             agent_obj: BaseAgent
@@ -81,8 +83,10 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
                 # get agent obj
                 agent = agent.upper()
-                agent_obj = self.agents[agent]
-                print(agent_obj.device)
+                try:
+                    agent_obj = self.agents[agent]
+                except:
+                    return "Wrong agent!"
 
                 # max hold 50 user for memory
                 if len(self.users) > self.max_hold_user:
@@ -103,7 +107,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     user_message = agent_obj.retrieve_knowledge(user_message)
 
                 if isinstance(agent_obj, PromptAgent):
-                    user_message = f"<name1>: {user_message}\n <name2>:"
+                    user_message.replace(user_id, '<name1>').replace(bot_id, '<name2>')
+                    user_message = f"<name1>: {user_message} <name2>:"
 
                 if isinstance(agent_obj, SingleTurn):
                     model_input = user_message
@@ -122,9 +127,12 @@ class VariousWebServerEnvironment(BaseEnvironment):
                         person_1=user_id,
                         person_2=bot_id,
                         **kwargs,
-                    )["output"].split('<name')[0]
+                    )["output"]
+                    bot_message = spliter.split(bot_message)[0]
+
                     self.add_bot_message(user_id, bot_message)
                     bot_message = bot_message.replace('<name1>', user_id).replace('<name2>', bot_id)
+                    bot_message = bot_message.replace("<", "'").replace(">", "'")
 
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
@@ -177,11 +185,11 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     user_id = user_id
 
                 text = request.form['text']
-                text = text.replace('<', '')
-                text = text.replace('>', '')
+                text = text.replace('<', '"')
+                text = text.replace('>', '"')
 
-                bot_id = request.form['bot_id']
-                topic = request.form['topic']
+                bot_id = request.form['bot_id'].replace('<', '"').replace('>', '"')
+                topic = request.form['topic'].replace('<', '"').replace('>', '"')
                 agent = request.form['agent']   # agent's name
 
             except Exception as e:
@@ -220,7 +228,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
 
         from waitress import serve
-        serve(self.app, host='0.0.0.0', port=80)
+        #serve(self.app, host='0.0.0.0', port=80)
+        serve(self.app, host='0.0.0.0', port=8000)
         #self.app.run(host='0.0.0.0', port=80)
 
 
@@ -245,8 +254,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
         '''
         story = f'<name1> and <name2> are talking about {topic}.'
         story += f" <name1> and <name2> start talking.\n"
-        story += f"<name1>: Hello <name2>.\n"
-        story += f"<name2>: Hi <name1>.\n"
+        story += f"<name1>: Hello <name2>. "
+        story += f"<name2>: Hi <name1>. "
         
         agent.add_prompt(
             self.histories,
