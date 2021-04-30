@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import torch
+import traceback
 
 from openchat import OpenChat, OpenChats
 
@@ -33,18 +34,21 @@ if __name__ == '__main__':
     if device != "cuda":
         exit(-1)
 
-    OpenChats(models=['blender.small',
-                      'blender.medium',
-                      'dialogpt.small',
-                      'dialogpt.medium',
-                      'gptneo.small',
-                      'gptneo.large',
-                      #
-                      ],
-              device=device,
-              environment='webserver',
-              method="top_k",
-              top_k=25,
-              top_p=0.85,
-              no_repeat_ngram_size=3,
-              )
+    try:
+        OpenChats(models=['blender.small',
+                        'blender.medium',
+                        'dialogpt.small',
+                        'dialogpt.medium',
+                        'gptneo.small',
+                        'gptneo.large',
+                        #
+                        ],
+                device=device,
+                environment='webserver',
+                method="top_k",
+                top_k=25,
+                top_p=0.85,
+                no_repeat_ngram_size=3,
+                )
+    except:
+        traceback.print_exc()
