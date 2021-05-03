@@ -1,6 +1,6 @@
 import torch
 from openchat.base import HuggingfaceAgent
-
+import re
 
 class PromptAgent(HuggingfaceAgent):
 
@@ -61,13 +61,18 @@ class PromptAgent(HuggingfaceAgent):
             f"{person_2.upper()}:",
         ]
 
+        escape = re.compile(r"</?name\d+> *:", re.I)
+
         generated_text = self.tokenizer.decode(
             output_ids[:, input_ids.shape[-1]:][0],
             skip_special_tokens=True,
         ).strip()
 
-        for escape in turn_escapes:
-            generated_text = generated_text.replace(escape, "\n")
+        #for escape in turn_escapes:
+        #    generated_text = generated_text.replace(escape, "\n")
+        
+        generated_text = escape.sub('\n', generated_text)
+
         return {
             "input": text,
             "output": generated_text.split("\n")[0].strip(),
