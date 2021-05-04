@@ -33,7 +33,6 @@ class VariousWebServerEnvironment(BaseEnvironment):
         CORS(self.app)
 
     def start(self, agents: list, **kwargs):
-        remove_token = re.compile('</?name[03456789]>', re.I)
 
         # parsing conformed model name and obj
         for agent_obj in agents:
@@ -127,11 +126,14 @@ class VariousWebServerEnvironment(BaseEnvironment):
                         **kwargs,
                     )["output"]
 
-                    bot_message = remove_token.sub("", bot_message)
-
                     self.add_bot_message(user_id, bot_message)
+                    
+                    user_token = re.compile(r"</?name1>", re.I)
+                    bot_token = re.compile(r"</?name2>", re.I)
 
-                    bot_message = bot_message.replace('<name1>', user_id).replace('<name2>', bot_id)
+                    bot_message = user_token.sub(user_id, bot_message)
+                    bot_message = bot_token.sub(bot_id, bot_message)
+
                     bot_message = bot_message.replace('<', '').replace('>', '')
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
