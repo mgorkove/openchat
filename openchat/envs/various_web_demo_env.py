@@ -229,8 +229,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         from waitress import serve
         #serve(self.app, host='0.0.0.0', port=80)
-        #serve(self.app, host='0.0.0.0', port=8000)
-        self.app.run(host='0.0.0.0', port=8000)
+        serve(self.app, host='0.0.0.0', port=8000)
+        #self.app.run(host='0.0.0.0', port=8000)
 
 
     def pre_dialog_for_special_tasks(self, agent, user_id, bot_id, topic):
