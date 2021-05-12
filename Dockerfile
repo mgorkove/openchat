@@ -18,4 +18,8 @@ COPY . .
 
 EXPOSE 8000
 
+RUN python model_download.py blender
+RUN python model_download.py dialogpt
+RUN python model_download.py gptneo
+
 CMD ["python", "tests/run_openchat.py"]
