@@ -22,8 +22,8 @@ print("dialogpt is done!")
 model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-125M")
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-125M")
 #------gptneo large------#
-model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
-tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B")
+#model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
+#tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B")
 
 print("gptneo is done!")
 
