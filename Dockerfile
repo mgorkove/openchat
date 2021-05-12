@@ -17,4 +17,6 @@ COPY . .
 
 EXPOSE 8000
 
+RUN python model_download.py
+
 CMD ["python", "tests/run_openchat.py"]
