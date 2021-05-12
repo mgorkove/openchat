@@ -15,6 +15,6 @@ RUN pip install transformers \
 WORKDIR /app
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["python", "tests/run_openchat.py"]
