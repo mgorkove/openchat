@@ -1,5 +1,5 @@
-# Dockerfile GPU
-FROM pytorch/pytorch:1.6.0-cuda10.1-cudnn7-runtime
+# Dockerfile CPU
+FROM python
 
 RUN apt-get update && \
     apt-get install -y && \
@@ -9,8 +9,9 @@ RUN pip install --upgrade pip
 RUN pip install transformers \
     flask \
     Flask-Cors \
-    parlai \
-    waitress
+    waitress \
+    torch \
+    parlai
 
 WORKDIR /app
 COPY . .
