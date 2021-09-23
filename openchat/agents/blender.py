@@ -22,8 +22,9 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         else:
             raise Exception("wrong model")
 
+        # python -m parlai interactive --model-file zoo:blenderbot2/blenderbot2_3B/model --search_server 0.0.0.0:8080
         option = self.set_options(
-            name=f"zoo:blender/blender_{size}/model",
+            name=f"zoo:blenderbot2/blenderbot2_3B/model",
             device=device,
         )
 
